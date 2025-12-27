@@ -134,22 +134,45 @@
 
 <script>
 function calculate(){
+
   let factor = parseFloat(document.getElementById("business").value);
   let e = parseFloat(document.getElementById("electricity").value) || 0;
   let d = parseFloat(document.getElementById("diesel").value) || 0;
 
-  let co2 = (e*0.82 + d*2.68) * factor;
-  let score = 100 - Math.min(co2/10,100);
+  // Carbon calculation
+  let co2 = (e * 0.82 + d * 2.68) * factor;
+
+  // Green score
+  let score = 100 - Math.min(co2 / 10, 100);
   score = Math.round(score);
 
-  let status="Excellent 🌱", cls="good";
-  if(score<80 && score>=50){status="Needs Improvement ⚠️"; cls="mid";}
-  if(score<50){status="High Emission 🚨"; cls="bad";}
+  let status = "Excellent 🌱", cls = "good";
+  if(score < 80 && score >= 50){ status = "Needs Improvement ⚠️"; cls = "mid"; }
+  if(score < 50){ status = "High Emission 🚨"; cls = "bad"; }
+
+  // Tree offset calculation
+  let trees = Math.ceil(co2 / 21);
+
+  // Smart tips
+  let tips = "";
+  if(e > 200){
+    tips += "💡 Switch to LED lighting to reduce electricity emissions.<br>";
+  }
+  if(d > 50){
+    tips += "🚚 Reduce diesel usage by 10% to save fuel & CO₂.<br>";
+  }
+  if(tips === ""){
+    tips = "✅ Your usage is efficient. Keep maintaining green practices!";
+  }
 
   document.getElementById("output").innerHTML = `
     <div><b>Total Emissions</b><br>${co2.toFixed(1)} kg CO₂ / month</div>
     <div class="score ${cls}">${score}</div>
     <div>${status}</div>
+    <hr>
+    <div><b>🌳 Offset Needed</b><br>${trees} trees / year</div>
+    <hr>
+    <div><b>♻️ Reduction Tips</b><br>${tips}</div>
   `;
 }
 </script>
