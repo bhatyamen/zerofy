@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zerofy – Carbon Footprint for Businesses</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4fdf7;
+  color: #1f2933;
+}
+header {
+  background: #0f766e;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+section {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+button {
+  background: #16a34a;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+input {
+  padding: 8px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.lang {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+footer {
+  text-align: center;
+  padding: 15px;
+  background: #064e3b;
+  color: white;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="lang">
+    <button onclick="setLang('en')">EN</button>
+    <button onclick="setLang('hi')">हिंदी</button>
+  </div>
+  <h1 id="title">Zerofy</h1>
+  <p id="subtitle">Carbon Footprint Platform for Businesses</p>
+</header>
+
+<section class="card">
+  <h2 id="calcTitle">Carbon Footprint Calculator</h2>
+
+  <label id="elecLabel">Monthly Electricity Usage (kWh)</label>
+  <input id="electricity" type="number">
+
+  <label id="fuelLabel">Monthly Fuel Usage (litres)</label>
+  <input id="fuel" type="number">
+
+  <button onclick="calculate()" id="calcBtn">Calculate</button>
+
+  <h3 id="result"></h3>
+</section>
+
+<section class="card">
+  <h2 id="monetizeTitle">Want to Reduce Emissions?</h2>
+  <p id="monetizeText">
+    Get a detailed business carbon report, ESG support, and carbon credits.
+  </p>
+  <p><b>Email us:</b> zerofy.contact@gmail.com</p>
+</section>
+
+<footer>
+  Zerofy © 2025 – Global Sustainability Platform
+</footer>
+
+<script>
+const text = {
+  en: {
+    title: "Zerofy",
+    subtitle: "Carbon Footprint Platform for Businesses",
+    calcTitle: "Carbon Footprint Calculator",
+    elecLabel: "Monthly Electricity Usage (kWh)",
+    fuelLabel: "Monthly Fuel Usage (litres)",
+    calcBtn: "Calculate",
+    monetizeTitle: "Want to Reduce Emissions?",
+    monetizeText: "Get a detailed business carbon report, ESG support, and carbon credits."
+  },
+  hi: {
+    title: "Zerofy",
+    subtitle: "व्यवसायों के लिए कार्बन फुटप्रिंट प्लेटफॉर्म",
+    calcTitle: "कार्बन फुटप्रिंट कैलकुलेटर",
+    elecLabel: "मासिक बिजली उपयोग (kWh)",
+    fuelLabel: "मासिक ईंधन उपयोग (लीटर)",
+    calcBtn: "गणना करें",
+    monetizeTitle: "उत्सर्जन कम करना चाहते हैं?",
+    monetizeText: "विस्तृत कार्बन रिपोर्ट और ESG सहायता प्राप्त करें।"
+  }
+};
+
+function setLang(lang) {
+  document.getElementById("title").innerText = text[lang].title;
+  document.getElementById("subtitle").innerText = text[lang].subtitle;
+  document.getElementById("calcTitle").innerText = text[lang].calcTitle;
+  document.getElementById("elecLabel").innerText = text[lang].elecLabel;
+  document.getElementById("fuelLabel").innerText = text[lang].fuelLabel;
+  document.getElementById("calcBtn").innerText = text[lang].calcBtn;
+  document.getElementById("monetizeTitle").innerText = text[lang].monetizeTitle;
+  document.getElementById("monetizeText").innerText = text[lang].monetizeText;
+}
+
+function calculate() {
+  let e = Number(document.getElementById("electricity").value) || 0;
+  let f = Number(document.getElementById("fuel").value) || 0;
+  let total = (e * 0.82) + (f * 2.3);
+  document.getElementById("result").innerText =
+    "Estimated CO₂ Emissions: " + total.toFixed(2) + " kg / month";
+}
+</script>
+
+</body>
+</html>
