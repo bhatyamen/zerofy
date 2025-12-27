@@ -1,136 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Zerofy – Carbon Intelligence</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Zerofy – Carbon Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    *{box-sizing:border-box}
+<style>
+*{box-sizing:border-box}
 
-    body{
-      margin:0;
-      font-family: "Inter", Arial, sans-serif;
-      background: linear-gradient(135deg,#0f9d58,#1b5e20);
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(135deg,#0f9d58,#1b5e20);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
-    .app{
-      width:100%;
-      max-width:420px;
-      background:rgba(255,255,255,0.95);
-      border-radius:20px;
-      padding:24px;
-      box-shadow:0 20px 50px rgba(0,0,0,0.25);
-    }
+.card{
+  background:#fff;
+  width:92%;
+  max-width:430px;
+  padding:22px;
+  border-radius:18px;
+  box-shadow:0 20px 45px rgba(0,0,0,0.25);
+}
 
-    h1{
-      margin:0 0 6px 0;
-      text-align:center;
-      color:#1b5e20;
-      font-size:24px;
-    }
+h1{
+  text-align:center;
+  margin:0;
+  color:#1b5e20;
+}
 
-    .subtitle{
-      text-align:center;
-      font-size:13px;
-      color:#555;
-      margin-bottom:22px;
-    }
+.subtitle{
+  text-align:center;
+  font-size:13px;
+  color:#555;
+  margin-bottom:20px;
+}
 
-    label{
-      font-weight:600;
-      margin-top:14px;
-      display:block;
-      font-size:14px;
-    }
+label{
+  font-weight:bold;
+  margin-top:14px;
+  display:block;
+}
 
-    select,input{
-      width:100%;
-      padding:14px;
-      margin-top:6px;
-      border-radius:12px;
-      border:1px solid #ddd;
-      font-size:15px;
-    }
+select,input{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:15px;
+}
 
-    button{
-      width:100%;
-      margin-top:22px;
-      padding:15px;
-      background:linear-gradient(135deg,#0f9d58,#1b5e20);
-      color:#fff;
-      border:none;
-      border-radius:14px;
-      font-size:17px;
-      font-weight:600;
-      cursor:pointer;
-    }
+button{
+  width:100%;
+  padding:14px;
+  margin-top:20px;
+  background:#0f9d58;
+  color:#fff;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:bold;
+}
 
-    button:active{
-      transform:scale(0.98);
-    }
+.result{
+  margin-top:20px;
+  padding:15px;
+  background:#f4f9f6;
+  border-radius:12px;
+  font-size:14px;
+}
 
-    .result{
-      margin-top:22px;
-      padding:18px;
-      background:#f4f9f6;
-      border-radius:14px;
-      text-align:center;
-    }
+.score{
+  font-size:42px;
+  font-weight:bold;
+  text-align:center;
+  margin:10px 0;
+}
 
-    .score{
-      font-size:48px;
-      font-weight:700;
-      margin:10px 0;
-    }
+.good{color:#2e7d32}
+.mid{color:#f9a825}
+.bad{color:#c62828}
 
-    .good{color:#2e7d32}
-    .mid{color:#f9a825}
-    .bad{color:#c62828}
+.bar{
+  height:10px;
+  background:#ddd;
+  border-radius:6px;
+  margin:6px 0;
+}
+.bar span{
+  display:block;
+  height:10px;
+  border-radius:6px;
+}
 
-    footer{
-      margin-top:18px;
-      text-align:center;
-      font-size:12px;
-      color:#666;
-    }
-  </style>
+footer{
+  text-align:center;
+  font-size:12px;
+  color:#666;
+  margin-top:15px;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="app">
-    <h1>🌱 Zerofy</h1>
-    <div class="subtitle">Smart Carbon Intelligence for SMEs</div>
+<div class="card">
+  <h1>🌱 Zerofy</h1>
+  <div class="subtitle">Smart Carbon Intelligence for SMEs</div>
 
-    <label>Business Type</label>
-    <select id="business">
-      <option value="1">Shop / Retail</option>
-      <option value="1.1">Office</option>
-      <option value="1.3">Restaurant</option>
-      <option value="1.6">Factory</option>
-    </select>
+  <label>Business Type</label>
+  <select id="business">
+    <option value="1">Shop / Retail</option>
+    <option value="1.1">Office</option>
+    <option value="1.3">Restaurant</option>
+    <option value="1.6">Factory</option>
+  </select>
 
-    <label>Electricity (Units / Month)</label>
-    <input type="number" id="electricity" placeholder="e.g. 250">
+  <label>Electricity (Units / Month)</label>
+  <input type="number" id="electricity" placeholder="e.g. 250">
 
-    <label>Diesel (Litres / Month)</label>
-    <input type="number" id="diesel" placeholder="e.g. 80">
+  <label>Diesel (Litres / Month)</label>
+  <input type="number" id="diesel" placeholder="e.g. 80">
 
-    <button onclick="calculate()">Analyze Carbon</button>
+  <button onclick="calculate()">Analyze Carbon</button>
 
-    <div class="result" id="output">
-      Enter details to calculate your Green Score
-    </div>
-
-    <footer>
-      Zerofy © 2025 · v1.2
-    </footer>
+  <div class="result" id="output">
+    Enter details to calculate your Green Score 🌍
   </div>
+
+  <footer>Zerofy © 2025 · v2.0</footer>
+</div>
 
 <script>
 function calculate(){
@@ -140,71 +144,64 @@ function calculate(){
   let e = parseFloat(document.getElementById("electricity").value) || 0;
   let d = parseFloat(document.getElementById("diesel").value) || 0;
 
-  // Core CO2 calculation
+  // CO2 calculation
   let co2 = (e * 0.82 + d * 2.68) * factor;
 
-  // Green Score
+  // Green score
   let score = Math.round(100 - Math.min(co2 / 10, 100));
-  let status = "Excellent 🌱", cls = "good";
-  if(score < 80 && score >= 50){ status = "Needs Improvement ⚠️"; cls = "mid"; }
-  if(score < 50){ status = "High Emission 🚨"; cls = "bad"; }
+  let cls = "good";
+  let status = "Excellent 🌱";
+  if(score < 80 && score >= 50){ cls="mid"; status="Needs Improvement ⚠️"; }
+  if(score < 50){ cls="bad"; status="High Emission 🚨"; }
 
-  // 🌳 Tree offset (1 tree ≈ 21 kg CO2/year)
-  let trees = Math.ceil(co2 / 21);
-
-  // 📊 Monthly comparison (simple logic)
-  let lastMonth = Math.round(co2 * 1.12); // assume last month was higher
+  // Monthly comparison (demo logic)
+  let lastMonth = Math.round(co2 * 1.15);
   let diff = lastMonth - co2;
-  let trend = diff > 0 ? "⬇ Reduced by " + diff.toFixed(1) + " kg" 
+  let trend = diff > 0 ? "⬇ Reduced by " + diff.toFixed(1) + " kg"
                        : "⬆ Increased by " + Math.abs(diff).toFixed(1) + " kg";
 
-  // ♻️ Smart tips
-  let tips = "";
-  if(e > 200) tips += "💡 Switch to LED lights to cut electricity emissions.<br>";
-  if(d > 50) tips += "🚚 Reduce diesel usage by 10% to save fuel & CO₂.<br>";
-  if(tips === "") tips = "✅ You are using energy efficiently. Keep it up!";
+  // Offset
+  let trees = Math.ceil(co2 / 21);
 
-  // 📈 Simple graph bars
-  let currentBar = Math.min(co2 / 5, 100);
+  // Tips
+  let tips = "";
+  if(e > 200) tips += "💡 Switch to LED lighting to cut electricity emissions.<br>";
+  if(d > 50) tips += "🚚 Reduce diesel usage by 10% to save fuel & CO₂.<br>";
+  if(tips === "") tips = "✅ Your energy usage is already efficient.";
+
+  // Graph bars
+  let curBar = Math.min(co2 / 5, 100);
   let lastBar = Math.min(lastMonth / 5, 100);
 
   document.getElementById("output").innerHTML = `
-    <div><b>Total Emissions</b><br>${co2.toFixed(1)} kg CO₂ / month</div>
-
+    <b>Total Emissions</b><br>${co2.toFixed(1)} kg CO₂ / month
     <div class="score ${cls}">${score}</div>
     <div>${status}</div>
 
     <hr>
 
-    <div><b>📅 Monthly Comparison</b><br>
+    <b>📅 Monthly Comparison</b><br>
     Last month: ${lastMonth} kg<br>
     This month: ${co2.toFixed(1)} kg<br>
-    ${trend}</div>
+    ${trend}
 
-    <div style="margin-top:10px">
-      <div style="background:#ddd;border-radius:8px;height:10px;margin-bottom:6px">
-        <div style="width:${lastBar}%;height:10px;background:#c62828;border-radius:8px"></div>
-      </div>
-      <div style="background:#ddd;border-radius:8px;height:10px">
-        <div style="width:${currentBar}%;height:10px;background:#2e7d32;border-radius:8px"></div>
-      </div>
-    </div>
+    <div class="bar"><span style="width:${lastBar}%;background:#c62828"></span></div>
+    <div class="bar"><span style="width:${curBar}%;background:#2e7d32"></span></div>
 
     <hr>
 
-    <div><b>🌳 Carbon Offset</b><br>
-    ${trees} trees required per year</div>
+    <b>🌳 Carbon Offset</b><br>
+    ${trees} trees required per year
 
     <hr>
 
-    <div><b>♻️ Reduction Tips</b><br>${tips}</div>
+    <b>♻️ Reduction Tips</b><br>
+    ${tips}
 
     <hr>
 
-    <div style="opacity:0.6">
-      <b>🏆 Green Certificate</b><br>
-      Locked 🔒 (Upgrade to download)
-    </div>
+    <b>🏆 Green Certificate</b><br>
+    Locked 🔒 (Upgrade to download)
   `;
 }
 </script>
