@@ -2,60 +2,56 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Zerofy – Carbon Intelligence</title>
+<title>Zerofy – Business Carbon Management</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-*{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:Arial, sans-serif;
+  background:#f4f9f6;
+  color:#222;
+}
+section{
+  padding:60px 20px;
+}
+.hero{
   background:linear-gradient(135deg,#0f9d58,#1b5e20);
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  color:#fff;
+  text-align:center;
+}
+.hero h1{font-size:32px;margin-bottom:10px}
+.hero p{font-size:16px;opacity:0.9}
+.hero button{
+  margin-top:20px;
+  padding:14px 24px;
+  font-size:16px;
+  border:none;
+  border-radius:10px;
+  background:#fff;
+  color:#1b5e20;
+  font-weight:bold;
 }
 
+.container{
+  max-width:800px;
+  margin:auto;
+}
 .card{
   background:#fff;
-  width:92%;
-  max-width:430px;
-  padding:22px;
-  border-radius:18px;
-  box-shadow:0 20px 45px rgba(0,0,0,0.25);
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.1);
 }
-
-h1{
-  text-align:center;
-  margin:0;
-  color:#1b5e20;
-}
-
-.subtitle{
-  text-align:center;
-  font-size:13px;
-  color:#555;
-  margin-bottom:20px;
-}
-
-label{
-  font-weight:bold;
-  margin-top:14px;
-  display:block;
-}
-
-select,input{
+label{font-weight:bold;margin-top:15px;display:block}
+input,select{
   width:100%;
   padding:12px;
   margin-top:6px;
   border-radius:10px;
   border:1px solid #ccc;
-  font-size:15px;
 }
-
-button{
+button.calc{
   width:100%;
   padding:14px;
   margin-top:20px;
@@ -64,144 +60,129 @@ button{
   border:none;
   border-radius:12px;
   font-size:16px;
-  font-weight:bold;
 }
 
 .result{
-  margin-top:20px;
-  padding:15px;
+  margin-top:25px;
   background:#f4f9f6;
+  padding:20px;
   border-radius:12px;
-  font-size:14px;
 }
-
 .score{
-  font-size:42px;
+  font-size:44px;
   font-weight:bold;
   text-align:center;
-  margin:10px 0;
 }
-
-.good{color:#2e7d32}
-.mid{color:#f9a825}
-.bad{color:#c62828}
-
-.bar{
-  height:10px;
-  background:#ddd;
-  border-radius:6px;
-  margin:6px 0;
-}
-.bar span{
-  display:block;
-  height:10px;
-  border-radius:6px;
-}
+.good{color:green}
+.mid{color:orange}
+.bad{color:red}
 
 footer{
+  background:#1b5e20;
+  color:#fff;
   text-align:center;
-  font-size:12px;
-  color:#666;
-  margin-top:15px;
+  padding:20px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<!-- HERO -->
+<section class="hero">
   <h1>🌱 Zerofy</h1>
-  <div class="subtitle">Smart Carbon Intelligence for SMEs</div>
+  <p>Measure, Reduce & Manage Your Business Carbon Footprint</p>
+  <button onclick="document.getElementById('calc').scrollIntoView()">Start Free Assessment</button>
+</section>
 
-  <label>Business Type</label>
-  <select id="business">
-    <option value="1">Shop / Retail</option>
-    <option value="1.1">Office</option>
-    <option value="1.3">Restaurant</option>
-    <option value="1.6">Factory</option>
-  </select>
+<!-- CALCULATOR -->
+<section id="calc">
+<div class="container">
+<div class="card">
 
-  <label>Electricity (Units / Month)</label>
-  <input type="number" id="electricity" placeholder="e.g. 250">
+<h2>Business Carbon Calculator</h2>
 
-  <label>Diesel (Litres / Month)</label>
-  <input type="number" id="diesel" placeholder="e.g. 80">
+<label>Business Type</label>
+<select id="business">
+  <option value="1">Shop / Retail</option>
+  <option value="1.1">Office</option>
+  <option value="1.3">Restaurant</option>
+  <option value="1.6">Factory</option>
+</select>
 
-  <button onclick="calculate()">Analyze Carbon</button>
+<label>Electricity (Units / Month)</label>
+<input type="number" id="electricity">
 
-  <div class="result" id="output">
-    Enter details to calculate your Green Score 🌍
-  </div>
+<label>Diesel (Litres / Month)</label>
+<input type="number" id="diesel">
 
-  <footer>Zerofy © 2025 · v2.0</footer>
+<label>LPG (kg / Month)</label>
+<input type="number" id="lpg">
+
+<label>Petrol (Litres / Month)</label>
+<input type="number" id="petrol">
+
+<label>Business Travel (km / Month)</label>
+<input type="number" id="travel">
+
+<button class="calc" onclick="calculate()">Analyze Carbon</button>
+
+<div class="result" id="output">
+Enter values to see results
 </div>
+
+</div>
+</div>
+</section>
+
+<!-- ABOUT -->
+<section>
+<div class="container">
+<h2>Why Zerofy?</h2>
+<p>
+Zerofy helps small businesses understand and reduce their environmental impact
+without complexity or high cost.
+</p>
+</div>
+</section>
+
+<!-- CERTIFICATE -->
+<section>
+<div class="container">
+<h2>Green Certificate</h2>
+<p>Show your commitment to sustainability.</p>
+<p><b>Locked 🔒 (Upgrade Coming Soon)</b></p>
+</div>
+</section>
+
+<footer>
+Zerofy © 2025 · Build Green, Grow Smart
+</footer>
 
 <script>
 function calculate(){
+  let f=parseFloat(business.value);
+  let e=+electricity.value||0;
+  let d=+diesel.value||0;
+  let l=+lpg.value||0;
+  let p=+petrol.value||0;
+  let t=+travel.value||0;
 
-  // Inputs
-  let factor = parseFloat(document.getElementById("business").value);
-  let e = parseFloat(document.getElementById("electricity").value) || 0;
-  let d = parseFloat(document.getElementById("diesel").value) || 0;
+  let co2=(e*0.82 + d*2.68 + l*3 + p*2.3 + t*0.12)*f;
+  let score=Math.round(100-Math.min(co2/15,100));
 
-  // CO2 calculation
-  let co2 = (e * 0.82 + d * 2.68) * factor;
+  let cls="good",status="Excellent 🌱";
+  if(score<80&&score>=50){cls="mid";status="Needs Improvement ⚠️"}
+  if(score<50){cls="bad";status="High Emission 🚨"}
 
-  // Green score
-  let score = Math.round(100 - Math.min(co2 / 10, 100));
-  let cls = "good";
-  let status = "Excellent 🌱";
-  if(score < 80 && score >= 50){ cls="mid"; status="Needs Improvement ⚠️"; }
-  if(score < 50){ cls="bad"; status="High Emission 🚨"; }
+  let trees=Math.ceil(co2/21);
 
-  // Monthly comparison (demo logic)
-  let lastMonth = Math.round(co2 * 1.15);
-  let diff = lastMonth - co2;
-  let trend = diff > 0 ? "⬇ Reduced by " + diff.toFixed(1) + " kg"
-                       : "⬆ Increased by " + Math.abs(diff).toFixed(1) + " kg";
-
-  // Offset
-  let trees = Math.ceil(co2 / 21);
-
-  // Tips
-  let tips = "";
-  if(e > 200) tips += "💡 Switch to LED lighting to cut electricity emissions.<br>";
-  if(d > 50) tips += "🚚 Reduce diesel usage by 10% to save fuel & CO₂.<br>";
-  if(tips === "") tips = "✅ Your energy usage is already efficient.";
-
-  // Graph bars
-  let curBar = Math.min(co2 / 5, 100);
-  let lastBar = Math.min(lastMonth / 5, 100);
-
-  document.getElementById("output").innerHTML = `
-    <b>Total Emissions</b><br>${co2.toFixed(1)} kg CO₂ / month
+  output.innerHTML=`
+    <b>Total Emissions:</b> ${co2.toFixed(1)} kg CO₂ / month
     <div class="score ${cls}">${score}</div>
     <div>${status}</div>
-
     <hr>
-
-    <b>📅 Monthly Comparison</b><br>
-    Last month: ${lastMonth} kg<br>
-    This month: ${co2.toFixed(1)} kg<br>
-    ${trend}
-
-    <div class="bar"><span style="width:${lastBar}%;background:#c62828"></span></div>
-    <div class="bar"><span style="width:${curBar}%;background:#2e7d32"></span></div>
-
-    <hr>
-
-    <b>🌳 Carbon Offset</b><br>
-    ${trees} trees required per year
-
-    <hr>
-
-    <b>♻️ Reduction Tips</b><br>
-    ${tips}
-
-    <hr>
-
-    <b>🏆 Green Certificate</b><br>
-    Locked 🔒 (Upgrade to download)
+    🌳 Trees needed to offset: <b>${trees}</b>
   `;
 }
 </script>
