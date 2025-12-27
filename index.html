@@ -1,93 +1,154 @@
-   margin-top:18px; 
-      padding:12px;
-      background:#0f9d58; 
-      color:#fff; 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Zerofy – Carbon Intelligence</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family: "Inter", Arial, sans-serif;
+      background: linear-gradient(135deg,#0f9d58,#1b5e20);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .app{
+      width:100%;
+      max-width:420px;
+      background:rgba(255,255,255,0.95);
+      border-radius:20px;
+      padding:24px;
+      box-shadow:0 20px 50px rgba(0,0,0,0.25);
+    }
+
+    h1{
+      margin:0 0 6px 0;
+      text-align:center;
+      color:#1b5e20;
+      font-size:24px;
+    }
+
+    .subtitle{
+      text-align:center;
+      font-size:13px;
+      color:#555;
+      margin-bottom:22px;
+    }
+
+    label{
+      font-weight:600;
+      margin-top:14px;
+      display:block;
+      font-size:14px;
+    }
+
+    select,input{
+      width:100%;
+      padding:14px;
+      margin-top:6px;
+      border-radius:12px;
+      border:1px solid #ddd;
+      font-size:15px;
+    }
+
+    button{
+      width:100%;
+      margin-top:22px;
+      padding:15px;
+      background:linear-gradient(135deg,#0f9d58,#1b5e20);
+      color:#fff;
       border:none;
-      border-radius:6px; 
-      font-size:16px; 
+      border-radius:14px;
+      font-size:17px;
+      font-weight:600;
       cursor:pointer;
     }
-    .card {
-      background:#fff; 
-      padding:15px; 
-      margin-top:18px;
-      border-radius:8px; 
+
+    button:active{
+      transform:scale(0.98);
+    }
+
+    .result{
+      margin-top:22px;
+      padding:18px;
+      background:#f4f9f6;
+      border-radius:14px;
       text-align:center;
     }
-    .score { 
-      font-size:36px; 
-      font-weight:bold; 
-    }
-    .good { color:#0f9d58; }
-    .mid { color:#f4b400; }
-    .bad { color:#db4437; }
 
-    footer { 
-      text-align:center; 
-      margin:25px 0; 
-      color:#666; 
-      font-size:14px; 
+    .score{
+      font-size:48px;
+      font-weight:700;
+      margin:10px 0;
+    }
+
+    .good{color:#2e7d32}
+    .mid{color:#f9a825}
+    .bad{color:#c62828}
+
+    footer{
+      margin-top:18px;
+      text-align:center;
+      font-size:12px;
+      color:#666;
     }
   </style>
 </head>
+
 <body>
 
-<header>🌍 Zerofy Smart Carbon Dashboard</header>
+  <div class="app">
+    <h1>🌱 Zerofy</h1>
+    <div class="subtitle">Smart Carbon Intelligence for SMEs</div>
 
-<div class="container">
-  <label>Business Type</label>
-  <select id="business">
-    <option value="1">Shop / Retail</option>
-    <option value="1.1">Office</option>
-    <option value="1.3">Restaurant</option>
-    <option value="1.6">Factory</option>
-  </select>
+    <label>Business Type</label>
+    <select id="business">
+      <option value="1">Shop / Retail</option>
+      <option value="1.1">Office</option>
+      <option value="1.3">Restaurant</option>
+      <option value="1.6">Factory</option>
+    </select>
 
-  <label>Electricity Used (Units / Month)</label>
-  <input type="number" id="electricity" placeholder="e.g. 200">
+    <label>Electricity (Units / Month)</label>
+    <input type="number" id="electricity" placeholder="e.g. 250">
 
-  <label>Diesel Used (Litres / Month)</label>
-  <input type="number" id="diesel" placeholder="e.g. 60">
+    <label>Diesel (Litres / Month)</label>
+    <input type="number" id="diesel" placeholder="e.g. 80">
 
-  <button onclick="calculate()">Analyze Carbon Footprint</button>
+    <button onclick="calculate()">Analyze Carbon</button>
 
-  <div class="card" id="output">
-    Enter details to analyze
+    <div class="result" id="output">
+      Enter details to calculate your Green Score
+    </div>
+
+    <footer>
+      Zerofy © 2025 · v1.2
+    </footer>
   </div>
-</div>
-
-<footer>
-  Zerofy © 2025 – Smart Sustainability for SMEs
-</footer>
 
 <script>
-function calculate() {
+function calculate(){
   let factor = parseFloat(document.getElementById("business").value);
-  let electricity = parseFloat(document.getElementById("electricity").value) || 0;
-  let diesel = parseFloat(document.getElementById("diesel").value) || 0;
+  let e = parseFloat(document.getElementById("electricity").value) || 0;
+  let d = parseFloat(document.getElementById("diesel").value) || 0;
 
-  let co2 = (electricity * 0.82 + diesel * 2.68) * factor;
-
-  let score = 100 - Math.min(co2 / 10, 100);
+  let co2 = (e*0.82 + d*2.68) * factor;
+  let score = 100 - Math.min(co2/10,100);
   score = Math.round(score);
 
-  let status = "Excellent 🌱";
-  let cls = "good";
-
-  if (score < 80 && score >= 50) {
-    status = "Needs Improvement ⚠️";
-    cls = "mid";
-  }
-  if (score < 50) {
-    status = "High Emission 🚨";
-    cls = "bad";
-  }
+  let status="Excellent 🌱", cls="good";
+  if(score<80 && score>=50){status="Needs Improvement ⚠️"; cls="mid";}
+  if(score<50){status="High Emission 🚨"; cls="bad";}
 
   document.getElementById("output").innerHTML = `
-    <div><b>Total Emission</b><br>${co2.toFixed(2)} kg CO₂ / month</div>
-    <hr>
+    <div><b>Total Emissions</b><br>${co2.toFixed(1)} kg CO₂ / month</div>
     <div class="score ${cls}">${score}</div>
-    <div><b>Green Score</b></div>
     <div>${status}</div>
   `;
 }
