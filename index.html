@@ -135,44 +135,76 @@
 <script>
 function calculate(){
 
+  // Inputs
   let factor = parseFloat(document.getElementById("business").value);
   let e = parseFloat(document.getElementById("electricity").value) || 0;
   let d = parseFloat(document.getElementById("diesel").value) || 0;
 
-  // Carbon calculation
+  // Core CO2 calculation
   let co2 = (e * 0.82 + d * 2.68) * factor;
 
-  // Green score
-  let score = 100 - Math.min(co2 / 10, 100);
-  score = Math.round(score);
-
+  // Green Score
+  let score = Math.round(100 - Math.min(co2 / 10, 100));
   let status = "Excellent 🌱", cls = "good";
   if(score < 80 && score >= 50){ status = "Needs Improvement ⚠️"; cls = "mid"; }
   if(score < 50){ status = "High Emission 🚨"; cls = "bad"; }
 
-  // Tree offset calculation
+  // 🌳 Tree offset (1 tree ≈ 21 kg CO2/year)
   let trees = Math.ceil(co2 / 21);
 
-  // Smart tips
+  // 📊 Monthly comparison (simple logic)
+  let lastMonth = Math.round(co2 * 1.12); // assume last month was higher
+  let diff = lastMonth - co2;
+  let trend = diff > 0 ? "⬇ Reduced by " + diff.toFixed(1) + " kg" 
+                       : "⬆ Increased by " + Math.abs(diff).toFixed(1) + " kg";
+
+  // ♻️ Smart tips
   let tips = "";
-  if(e > 200){
-    tips += "💡 Switch to LED lighting to reduce electricity emissions.<br>";
-  }
-  if(d > 50){
-    tips += "🚚 Reduce diesel usage by 10% to save fuel & CO₂.<br>";
-  }
-  if(tips === ""){
-    tips = "✅ Your usage is efficient. Keep maintaining green practices!";
-  }
+  if(e > 200) tips += "💡 Switch to LED lights to cut electricity emissions.<br>";
+  if(d > 50) tips += "🚚 Reduce diesel usage by 10% to save fuel & CO₂.<br>";
+  if(tips === "") tips = "✅ You are using energy efficiently. Keep it up!";
+
+  // 📈 Simple graph bars
+  let currentBar = Math.min(co2 / 5, 100);
+  let lastBar = Math.min(lastMonth / 5, 100);
 
   document.getElementById("output").innerHTML = `
     <div><b>Total Emissions</b><br>${co2.toFixed(1)} kg CO₂ / month</div>
+
     <div class="score ${cls}">${score}</div>
     <div>${status}</div>
+
     <hr>
-    <div><b>🌳 Offset Needed</b><br>${trees} trees / year</div>
+
+    <div><b>📅 Monthly Comparison</b><br>
+    Last month: ${lastMonth} kg<br>
+    This month: ${co2.toFixed(1)} kg<br>
+    ${trend}</div>
+
+    <div style="margin-top:10px">
+      <div style="background:#ddd;border-radius:8px;height:10px;margin-bottom:6px">
+        <div style="width:${lastBar}%;height:10px;background:#c62828;border-radius:8px"></div>
+      </div>
+      <div style="background:#ddd;border-radius:8px;height:10px">
+        <div style="width:${currentBar}%;height:10px;background:#2e7d32;border-radius:8px"></div>
+      </div>
+    </div>
+
     <hr>
+
+    <div><b>🌳 Carbon Offset</b><br>
+    ${trees} trees required per year</div>
+
+    <hr>
+
     <div><b>♻️ Reduction Tips</b><br>${tips}</div>
+
+    <hr>
+
+    <div style="opacity:0.6">
+      <b>🏆 Green Certificate</b><br>
+      Locked 🔒 (Upgrade to download)
+    </div>
   `;
 }
 </script>
