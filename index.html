@@ -2,200 +2,209 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zerofy – Carbon Calculator & Green Certificate</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#f4fdf7;
-  color:#222;
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:linear-gradient(to bottom,#e8f7ef,#ffffff);
 }
 
-header{
-  background:#0f9d58;
-  color:white;
-  padding:30px 15px;
-  text-align:center;
+/* Container */
+.container{
+    max-width:600px;
+    margin:auto;
+    padding:20px;
 }
 
-section{
-  max-width:900px;
-  margin:30px auto;
-  background:white;
-  padding:25px;
-  border-radius:12px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.08);
+/* Card */
+.card{
+    background:#fff;
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom:30px;
 }
 
-h2{
-  margin-top:0;
-  color:#0f9d58;
-}
-
+/* Inputs */
 label{
-  display:block;
-  margin-top:15px;
-  font-weight:bold;
+    font-weight:600;
+    display:block;
+    margin-top:15px;
 }
-
 input, select{
-  width:100%;
-  padding:10px;
-  margin-top:5px;
-  border-radius:8px;
-  border:1px solid #ccc;
+    width:100%;
+    padding:12px;
+    margin-top:6px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:16px;
 }
 
+/* Button */
 button{
-  margin-top:20px;
-  padding:12px;
-  width:100%;
-  border:none;
-  border-radius:10px;
-  background:#0f9d58;
-  color:white;
-  font-size:16px;
-  cursor:pointer;
+    width:100%;
+    padding:14px;
+    margin-top:20px;
+    background:#0f9d58;
+    border:none;
+    color:#fff;
+    font-size:18px;
+    border-radius:10px;
+    cursor:pointer;
 }
 
-button:hover{
-  background:#0c7c45;
-}
-
+/* Result */
 .result{
-  margin-top:20px;
-  padding:15px;
-  background:#e8f5e9;
-  border-radius:10px;
-  font-weight:bold;
+    margin-top:20px;
+    padding:15px;
+    background:#eaf7f1;
+    border-radius:10px;
+    font-weight:bold;
+    text-align:center;
+    font-size:18px;
 }
 
+/* Certificate */
 .certificate{
-  text-align:center;
-  background:#ecfdf3;
-  padding:30px;
-  border-radius:12px;
+    display:none;
+    margin-top:40px;
+    padding:30px;
+    border-radius:18px;
+    background:#fff;
+    box-shadow:0 20px 50px rgba(0,0,0,0.15);
+    position:relative;
 }
-
-.cert-box{
-  margin-top:20px;
-  padding:25px;
-  border:2px dashed #0f9d58;
-  border-radius:12px;
-  background:white;
+.certificate:before{
+    content:"";
+    position:absolute;
+    inset:-4px;
+    background:linear-gradient(135deg,#0f9d58,#00c853,#a5d6a7);
+    border-radius:22px;
+    z-index:-1;
 }
-
-footer{
-  background:#0f9d58;
-  color:white;
-  text-align:center;
-  padding:20px;
-  margin-top:40px;
+.cert-title{
+    text-align:center;
+    font-size:30px;
+    font-weight:800;
+    color:#0f9d58;
+}
+.cert-sub{
+    text-align:center;
+    color:#555;
+}
+.cert-body{
+    margin-top:30px;
+    text-align:center;
+    font-size:18px;
+}
+.cert-highlight{
+    font-size:26px;
+    color:#0f9d58;
+    font-weight:700;
+    margin:10px 0;
+}
+.cert-footer{
+    display:flex;
+    justify-content:space-between;
+    margin-top:40px;
+    font-size:14px;
+}
+.line{
+    height:3px;
+    width:120px;
+    background:#0f9d58;
+    margin:15px auto;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>🌱 Zerofy</h1>
-  <p>Carbon Calculator & Free Green Certificate</p>
-</header>
+<div class="container">
 
 <!-- CARBON CALCULATOR -->
-<section>
-  <h2>Business Carbon Calculator</h2>
+<div class="card">
+<h2>🌍 Zerofy Carbon Calculator</h2>
 
-  <label>Business Type</label>
-  <select id="businessType">
-    <option>Shop / Retail</option>
-    <option>Restaurant</option>
-    <option>Office</option>
-    <option>Factory</option>
-  </select>
+<label>Business Type</label>
+<select id="business">
+<option>Restaurant</option>
+<option>Shop</option>
+<option>Office</option>
+<option>Factory</option>
+</select>
 
-  <label>Electricity (Units / Month)</label>
-  <input type="number" id="electricity">
+<label>Electricity (Units / Month)</label>
+<input type="number" id="electricity">
 
-  <label>Diesel (Litres / Month)</label>
-  <input type="number" id="diesel">
+<label>Diesel (Litres / Month)</label>
+<input type="number" id="diesel">
 
-  <label>LPG (Kg / Month)</label>
-  <input type="number" id="lpg">
+<label>LPG (Kg / Month)</label>
+<input type="number" id="lpg">
 
-  <label>Petrol (Litres / Month)</label>
-  <input type="number" id="petrol">
+<label>Petrol (Litres / Month)</label>
+<input type="number" id="petrol">
 
-  <label>Business Travel (Km / Month)</label>
-  <input type="number" id="travel">
+<label>Business Travel (Km / Month)</label>
+<input type="number" id="travel">
 
-  <button onclick="calculateCarbon()">Analyze Carbon</button>
+<button onclick="calculate()">Analyze Carbon</button>
 
-  <div class="result" id="carbonResult">
-    Enter values to see results
-  </div>
-</section>
+<div id="output" class="result" style="display:none;"></div>
+</div>
 
-<!-- GREEN CERTIFICATE -->
-<section class="certificate">
-  <h2>🌿 Zerofy Free Green Certificate</h2>
+<!-- CERTIFICATE -->
+<div id="certificate" class="certificate">
+<div class="cert-title">Zerofy Green Certificate</div>
+<div class="cert-sub">Carbon Emission Assessment & Awareness</div>
+<div class="line"></div>
 
-  <label>Enter Your Name</label>
-  <input type="text" id="userName" placeholder="Your Name">
+<div class="cert-body">
+This certificate is awarded to a  
+<div class="cert-highlight" id="certBusiness"></div>
+for generating an estimated carbon emission of  
+<div class="cert-highlight" id="certCarbon"></div>
+and taking the first step towards sustainability 🌱
+</div>
 
-  <button onclick="generateCertificate()">Get Certificate</button>
+<div class="cert-footer">
+<div>
+<strong>Authorized by Zerofy</strong><br>
+Sustainability Platform
+</div>
+<div>
+Certificate ID:<br>
+<span id="certId"></span><br>
+Date: <span id="certDate"></span>
+</div>
+</div>
+</div>
 
-  <div id="certificateArea"></div>
-</section>
-
-<!-- ABOUT -->
-<section>
-  <h2>Why Zerofy?</h2>
-  <p>
-    Zerofy helps small businesses understand and reduce their carbon footprint.
-    Our mission is to make sustainability simple, affordable, and accessible
-    for everyone.
-  </p>
-</section>
-
-<footer>
-  <p>© 2025 Zerofy | Build a greener future</p>
-  <p>Instagram: @zerofy__official</p>
-</footer>
+</div>
 
 <script>
-function calculateCarbon(){
-  let e = Number(electricity.value) * 0.82;
-  let d = Number(diesel.value) * 2.68;
-  let l = Number(lpg.value) * 3;
-  let p = Number(petrol.value) * 2.31;
-  let t = Number(travel.value) * 0.12;
+function calculate(){
+    let e = +electricity.value * 0.82;
+    let d = +diesel.value * 2.68;
+    let l = +lpg.value * 3;
+    let p = +petrol.value * 2.31;
+    let t = +travel.value * 0.21;
 
-  let total = e + d + l + p + t;
+    let total = (e+d+l+p+t).toFixed(2);
 
-  carbonResult.innerHTML =
-    "Estimated Carbon Emission: <br>" +
-    total.toFixed(2) + " kg CO₂ / month";
-}
+    output.style.display="block";
+    output.innerHTML = `Estimated Carbon Emission: <br><strong>${total} kg CO₂ / month</strong>`;
 
-function generateCertificate(){
-  let name = userName.value.trim();
-  if(name === ""){
-    alert("Please enter your name");
-    return;
-  }
-
-  certificateArea.innerHTML = `
-    <div class="cert-box">
-      <h3>🌱 Green Certificate</h3>
-      <p>This certifies that</p>
-      <h2>${name}</h2>
-      <p>supports environmental responsibility</p>
-      <p><b>Zerofy Initiative</b></p>
-    </div>
-  `;
+    // Certificate
+    certificate.style.display="block";
+    certBusiness.innerText = business.value;
+    certCarbon.innerText = total + " kg CO₂ / month";
+    certId.innerText = "ZFY-" + Math.floor(Math.random()*100000);
+    certDate.innerText = new Date().toDateString();
 }
 </script>
 
