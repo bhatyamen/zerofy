@@ -1,63 +1,203 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Zerofy – Sustainability Platform</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zerofy – Carbon Calculator & Green Certificate</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#f4fdf7;
+  color:#222;
+}
+
+header{
+  background:#0f9d58;
+  color:white;
+  padding:30px 15px;
+  text-align:center;
+}
+
+section{
+  max-width:900px;
+  margin:30px auto;
+  background:white;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+h2{
+  margin-top:0;
+  color:#0f9d58;
+}
+
+label{
+  display:block;
+  margin-top:15px;
+  font-weight:bold;
+}
+
+input, select{
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+button{
+  margin-top:20px;
+  padding:12px;
+  width:100%;
+  border:none;
+  border-radius:10px;
+  background:#0f9d58;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#0c7c45;
+}
+
+.result{
+  margin-top:20px;
+  padding:15px;
+  background:#e8f5e9;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+.certificate{
+  text-align:center;
+  background:#ecfdf3;
+  padding:30px;
+  border-radius:12px;
+}
+
+.cert-box{
+  margin-top:20px;
+  padding:25px;
+  border:2px dashed #0f9d58;
+  border-radius:12px;
+  background:white;
+}
+
+footer{
+  background:#0f9d58;
+  color:white;
+  text-align:center;
+  padding:20px;
+  margin-top:40px;
+}
+</style>
 </head>
 
-<body style="font-family:Arial; text-align:center; background:#f4fff4;">
+<body>
 
-  <h1>🌍 Zerofy</h1>
-  <p>Simple sustainability for everyone</p>
+<header>
+  <h1>🌱 Zerofy</h1>
+  <p>Carbon Calculator & Free Green Certificate</p>
+</header>
 
-  <hr>
+<!-- CARBON CALCULATOR -->
+<section>
+  <h2>Business Carbon Calculator</h2>
 
-  <h2>What We Do</h2>
+  <label>Business Type</label>
+  <select id="businessType">
+    <option>Shop / Retail</option>
+    <option>Restaurant</option>
+    <option>Office</option>
+    <option>Factory</option>
+  </select>
+
+  <label>Electricity (Units / Month)</label>
+  <input type="number" id="electricity">
+
+  <label>Diesel (Litres / Month)</label>
+  <input type="number" id="diesel">
+
+  <label>LPG (Kg / Month)</label>
+  <input type="number" id="lpg">
+
+  <label>Petrol (Litres / Month)</label>
+  <input type="number" id="petrol">
+
+  <label>Business Travel (Km / Month)</label>
+  <input type="number" id="travel">
+
+  <button onclick="calculateCarbon()">Analyze Carbon</button>
+
+  <div class="result" id="carbonResult">
+    Enter values to see results
+  </div>
+</section>
+
+<!-- GREEN CERTIFICATE -->
+<section class="certificate">
+  <h2>🌿 Zerofy Free Green Certificate</h2>
+
+  <label>Enter Your Name</label>
+  <input type="text" id="userName" placeholder="Your Name">
+
+  <button onclick="generateCertificate()">Get Certificate</button>
+
+  <div id="certificateArea"></div>
+</section>
+
+<!-- ABOUT -->
+<section>
+  <h2>Why Zerofy?</h2>
   <p>
-    Zerofy helps individuals and small businesses take their first step
-    towards sustainability and climate responsibility.
+    Zerofy helps small businesses understand and reduce their carbon footprint.
+    Our mission is to make sustainability simple, affordable, and accessible
+    for everyone.
   </p>
+</section>
 
-  <hr>
+<footer>
+  <p>© 2025 Zerofy | Build a greener future</p>
+  <p>Instagram: @zerofy__official</p>
+</footer>
 
-  <h2>Our Features</h2>
+<script>
+function calculateCarbon(){
+  let e = Number(electricity.value) * 0.82;
+  let d = Number(diesel.value) * 2.68;
+  let l = Number(lpg.value) * 3;
+  let p = Number(petrol.value) * 2.31;
+  let t = Number(travel.value) * 0.12;
 
-  <p>✅ Free Green Certificate</p>
-  <p>✅ Sustainability Awareness</p>
-  <p>✅ Carbon Reduction Pledge</p>
-  <p>✅ Future Carbon Tracking</p>
+  let total = e + d + l + p + t;
 
-  <br>
+  carbonResult.innerHTML =
+    "Estimated Carbon Emission: <br>" +
+    total.toFixed(2) + " kg CO₂ / month";
+}
 
-  <!-- GREEN CERTIFICATE BUTTON -->
-  <a href="certificate.html">
-    <button style="
-      padding:14px 24px;
-      background:green;
-      color:white;
-      border:none;
-      font-size:18px;
-      border-radius:8px;
-      cursor:pointer;
-    ">
-      🌱 Get Free Green Certificate
-    </button>
-  </a>
+function generateCertificate(){
+  let name = userName.value.trim();
+  if(name === ""){
+    alert("Please enter your name");
+    return;
+  }
 
-  <br><br>
-
-  <hr>
-
-  <h3>Why Zerofy?</h3>
-  <p>
-    Sustainability should be easy, free to start,
-    and accessible to everyone.
-  </p>
-
-  <hr>
-
-  <p style="font-size:12px;">
-    © 2025 Zerofy | Climate Awareness Initiative
-  </p>
+  certificateArea.innerHTML = `
+    <div class="cert-box">
+      <h3>🌱 Green Certificate</h3>
+      <p>This certifies that</p>
+      <h2>${name}</h2>
+      <p>supports environmental responsibility</p>
+      <p><b>Zerofy Initiative</b></p>
+    </div>
+  `;
+}
+</script>
 
 </body>
 </html>
