@@ -5,195 +5,236 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zerofy – Carbon Footprint & Green Certificate</title>
 
-<meta name="description" content="Zerofy helps businesses measure carbon footprint and earn verified green certificates.">
+<meta name="description" content="Zerofy helps businesses calculate carbon footprint, reduce emissions, and earn a free green certificate.">
 
 <style>
 :root{
---bg:#ffffff;--text:#111;--accent:#0fa958;
+  --green:#16a34a;
+  --dark:#0f172a;
+  --light:#f8fafc;
 }
-.dark{--bg:#0c0c0c;--text:#fff;}
-body{margin:0;font-family:Arial;background:var(--bg);color:var(--text);scroll-behavior:smooth;}
-header{position:sticky;top:0;background:var(--bg);padding:15px;display:flex;justify-content:space-between;z-index:999;border-bottom:1px solid #ddd;}
-button{padding:8px 14px;border:none;border-radius:6px;background:var(--accent);color:#fff;cursor:pointer}
-section{padding:60px 20px;max-width:900px;margin:auto}
-.card{background:#f2f2f2;padding:20px;border-radius:12px;margin-top:20px}
-.dark .card{background:#1b1b1b}
-input,select{width:100%;padding:10px;margin-top:10px}
-.hidden{display:none}
-#topBtn{position:fixed;bottom:20px;right:20px;display:none}
-#loader{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;font-size:22px}
-.dark #loader{background:#000}
-#certificate{border:4px dashed var(--accent);padding:30px;text-align:center}
-footer{text-align:center;padding:40px;font-size:14px}
-.badge{border:2px solid var(--accent);padding:10px;border-radius:8px;display:inline-block}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:#000;
+  color:#111;
+  scroll-behavior:smooth;
+}
+.hero{
+  min-height:100vh;
+  background:
+    linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+    url("https://images.unsplash.com/photo-1469474968028-56623f02e42e");
+  background-size:cover;
+  background-position:center;
+  color:white;
+  display:flex;
+  align-items:center;
+}
+.hero-inner{
+  max-width:900px;
+  padding:60px;
+}
+.hero h1{font-size:48px;margin:0 0 15px}
+.hero p{font-size:18px;max-width:600px}
+.hero button{
+  margin-top:25px;
+  padding:14px 26px;
+  font-size:16px;
+  background:var(--green);
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+section{
+  padding:90px 20px;
+  background:white;
+}
+.container{
+  max-width:900px;
+  margin:auto;
+}
+h2{
+  font-size:34px;
+  margin-bottom:15px;
+}
+p{color:#444}
+
+.card{
+  background:var(--light);
+  padding:25px;
+  border-radius:16px;
+  margin-top:30px;
+}
+input,select{
+  width:100%;
+  padding:12px;
+  margin-top:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+button.primary{
+  margin-top:20px;
+  padding:12px 22px;
+  background:var(--green);
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+ul{padding-left:20px}
+
+#certificate{
+  display:none;
+  margin-top:40px;
+  border:5px solid var(--green);
+  padding:40px;
+  border-radius:18px;
+  background:white;
+  text-align:center;
+}
+#certificate h3{margin:10px 0}
+.footer{
+  background:#020617;
+  color:#aaa;
+  padding:50px 20px;
+  text-align:center;
+}
+.footer b{color:white}
 </style>
 </head>
 
 <body>
 
-<div id="loader">Loading Zerofy 🌱</div>
-
-<header>
-<b>Zerofy</b>
-<div>
-<button onclick="toggleTheme()">🌙</button>
-<button onclick="toggleLang()">EN/HI</button>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Measure. Reduce. Certify.</h1>
+    <p>Zerofy helps businesses calculate carbon footprint, reduce emissions, and earn a trusted green certificate — free.</p>
+    <button onclick="document.getElementById('calculator').scrollIntoView()">Start Carbon Calculator</button>
+  </div>
 </div>
-</header>
 
-<section class="hero">
-<h1 id="title">Build a Greener Business</h1>
-<p id="subtitle">Carbon footprint → Green certificate → Trust</p>
-</section>
-
+<!-- HOW IT WORKS -->
 <section>
-<h2>Carbon Calculator</h2>
-<div class="card">
-<input id="name" placeholder="Your Name">
-<input id="business" placeholder="Business Name">
-<select id="type">
-<option>Shop</option><option>Office</option><option>Factory</option>
-</select>
-<input id="units" type="number" placeholder="Monthly Electricity Units">
-<select id="period"><option>Monthly</option><option>Yearly</option></select>
-<button onclick="calculate()">Calculate</button>
-<p id="result"></p>
-<p id="eco"></p>
-<p id="trees"></p>
-</div>
+  <div class="container">
+    <h2>How Zerofy Works</h2>
+    <p>Simple steps to become a greener business.</p>
+
+    <div class="card">
+      <b>1️⃣ Calculate</b> – Measure electricity-based emissions  
+      <br><br>
+      <b>2️⃣ Reduce</b> – Get smart reduction tips  
+      <br><br>
+      <b>3️⃣ Certify</b> – Download your green certificate
+    </div>
+  </div>
 </section>
 
+<!-- CALCULATOR -->
+<section id="calculator">
+  <div class="container">
+    <h2>Carbon Footprint Calculator</h2>
+    <p>Based on standard electricity emission factors (≈ 0.82 kg CO₂ per unit).</p>
+
+    <div class="card">
+      <input id="name" placeholder="Your Name">
+      <input id="business" placeholder="Business Name">
+
+      <select id="type">
+        <option>Shop</option>
+        <option>Office</option>
+        <option>Factory</option>
+      </select>
+
+      <input id="units" type="number" placeholder="Monthly Electricity Units (kWh)">
+      <button class="primary" onclick="calculate()">Calculate Emissions</button>
+
+      <p id="result"></p>
+      <p id="score"></p>
+      <p id="trees"></p>
+    </div>
+  </div>
+</section>
+
+<!-- REDUCTION -->
 <section>
-<h2>Green Certificate</h2>
-<button onclick="generateCert()">Preview & Generate</button>
+  <div class="container">
+    <h2>How to Reduce Emissions</h2>
 
-<div id="certificate" class="hidden">
-<h2>🌿 Zerofy Green Certificate</h2>
-<p><b id="cname"></b> – <span id="cbusiness"></span></p>
-<p>Certificate ID: <span id="cid"></span></p>
-<p>Valid Till: <span id="expiry"></span></p>
-<p class="badge">✔ Verified by Zerofy</p>
-<br><br>
-<button onclick="download()">Download PDF</button>
-<button onclick="share()">Share</button>
-</div>
+    <div class="card">
+      <ul id="tips">
+        <li>Switch to LED lighting</li>
+        <li>Reduce AC usage & improve insulation</li>
+        <li>Use energy-efficient appliances</li>
+        <li>Install solar panels if possible</li>
+        <li>Monitor monthly electricity usage</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
+<!-- CERTIFICATE -->
 <section>
-<h2>Verify Certificate</h2>
-<div class="card">
-<input id="verifyInput" placeholder="Enter Certificate ID">
-<button onclick="verify()">Verify</button>
-<p id="verifyResult"></p>
-</div>
+  <div class="container">
+    <h2>Free Green Certificate</h2>
+    <p>Based on your commitment to sustainability.</p>
+
+    <button class="primary" onclick="generateCertificate()">Generate Certificate</button>
+
+    <div id="certificate">
+      <h2>🌿 Zerofy Green Certificate</h2>
+      <p>This certifies that</p>
+      <h3 id="cname"></h3>
+      <p>from</p>
+      <h3 id="cbusiness"></h3>
+      <p>is committed to reducing carbon emissions.</p>
+      <p><b>Certificate ID:</b> <span id="cid"></span></p>
+      <p><b>Issued:</b> <span id="date"></span></p>
+      <button class="primary" onclick="window.print()">Download Certificate</button>
+    </div>
+  </div>
 </section>
 
-<section>
-<h2>Your Green Impact</h2>
-<div class="card">
-<p>🌳 Trees Saved Equivalent: <b id="treeCount">0</b></p>
-<p>🎯 Reduction Goal: <span id="goal">500 kg CO₂</span></p>
+<!-- FOOTER -->
+<div class="footer">
+  <p><b>Zerofy</b> – Building a greener future 🌍</p>
+  <p>Instagram: zerofy__official</p>
+  <p>© 2025 Zerofy</p>
 </div>
-</section>
-
-<section>
-<h2>7-Day Eco Challenge</h2>
-<div class="card">
-<ul>
-<li>Day 1: Switch to LED</li>
-<li>Day 2: Reduce AC usage</li>
-<li>Day 3: Paperless bills</li>
-<li>Day 4: Public transport</li>
-<li>Day 5: Energy audit</li>
-<li>Day 6: Recycle waste</li>
-<li>Day 7: Go solar ☀️</li>
-</ul>
-</div>
-</section>
-
-<section>
-<h2>Testimonials</h2>
-<div class="card">
-<p>“Zerofy helped my shop look professional.” – Local Store</p>
-<p>“Simple & powerful green proof.” – Startup Founder</p>
-</div>
-</section>
-
-<section>
-<h2>Newsletter</h2>
-<div class="card">
-<input placeholder="Your Email">
-<button>Subscribe</button>
-</div>
-</section>
-
-<footer>
-<p>Visitors: <span id="visits"></span></p>
-<p>© 2025 Zerofy | Instagram: zerofy__official</p>
-</footer>
-
-<button id="topBtn" onclick="scrollTo(0,0)">⬆</button>
 
 <script>
-/* Loader */
-window.onload=()=>{loader.style.display="none"}
-
-/* Theme */
-function toggleTheme(){document.body.classList.toggle("dark")}
-
-/* Language */
-let hi=false;
-function toggleLang(){
-hi=!hi;
-title.innerText=hi?"हरित व्यवसाय बनाएं":"Build a Greener Business";
-subtitle.innerText=hi?"ग्रीन सर्टिफिकेट पाएं":"Carbon footprint → Green certificate → Trust";
-}
-
-/* Save Inputs */
-["name","business","units"].forEach(id=>{
-let el=document.getElementById(id);
-el.value=localStorage[id]||"";
-el.oninput=()=>localStorage[id]=el.value;
-});
-
-/* Calculator */
 function calculate(){
-if(!name.value||!business.value){alert("Fill details");return;}
-let u=+units.value*(period.value==="Yearly"?12:1);
-let emission=u*0.82;
-let score=emission<300?"A":emission<600?"B":"C";
-result.innerText="CO₂: "+emission.toFixed(1)+" kg";
-eco.innerText="Eco Score: "+score;
-trees.innerText="≈ "+Math.floor(emission/20)+" trees saved";
-treeCount.innerText=Math.floor(emission/20);
+  if(!name.value || !business.value || !units.value){
+    alert("Please fill all details");
+    return;
+  }
+  let emission = units.value * 0.82;
+  let yearly = emission * 12;
+  let trees = Math.round(yearly / 21);
+
+  result.innerText = "Monthly CO₂ Emissions: " + emission.toFixed(1) + " kg";
+  score.innerText =
+    yearly < 2000 ? "Eco Score: A (Excellent)" :
+    yearly < 5000 ? "Eco Score: B (Good)" :
+    "Eco Score: C (Needs Improvement)";
+  trees.innerText = "Equivalent Trees Needed: " + trees + " 🌳";
 }
 
-/* Certificate */
-let currentID="";
-function generateCert(){
-cname.innerText=name.value;
-cbusiness.innerText=business.value;
-currentID="ZF-"+Date.now();
-cid.innerText=currentID;
-expiry.innerText=new Date(Date.now()+31536000000).toDateString();
-certificate.classList.remove("hidden");
+function generateCertificate(){
+  if(!name.value || !business.value){
+    alert("Calculate footprint first");
+    return;
+  }
+  cname.innerText = name.value;
+  cbusiness.innerText = business.value;
+  cid.innerText = "ZF-" + Math.floor(Math.random()*1000000);
+  date.innerText = new Date().toDateString();
+  document.getElementById("certificate").style.display="block";
 }
-
-/* Verify */
-function verify(){
-verifyResult.innerText=
-verifyInput.value===currentID?"✅ Valid Certificate":"❌ Invalid Certificate";
-}
-
-/* PDF */
-function download(){window.print()}
-function share(){navigator.share?.({title:"Zerofy Certificate",url:location.href})}
-
-/* Visitors */
-let v=+localStorage.visits||0;v++;localStorage.visits=v;visits.innerText=v;
-
-/* Scroll top */
-window.onscroll=()=>topBtn.style.display=scrollY>300?"block":"none";
 </script>
 
 </body>
