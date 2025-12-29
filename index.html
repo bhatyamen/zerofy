@@ -1,165 +1,448 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Zerofy – Carbon Footprint Calculator</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{background:#0b1d14;color:#eafff3;line-height:1.6}
-header{
-  height:100vh;
-  background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.8)),
-  url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee");
-  background-size:cover;
-  background-position:center;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-header h1{font-size:3rem;color:#7CFFB2}
-header p{max-width:700px;margin:20px auto;font-size:1.1rem}
-.btn{
-  background:#1eff8b;color:#003b1f;
-  padding:15px 30px;border-radius:30px;
-  text-decoration:none;font-weight:bold;
-  display:inline-block;margin-top:20px
-}
-section{padding:70px 20px;max-width:1100px;margin:auto}
-h2{text-align:center;color:#7CFFB2;margin-bottom:40px;font-size:2rem}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
-.card{
-  background:#112f22;
-  padding:25px;border-radius:20px;
-  box-shadow:0 0 20px rgba(0,0,0,.4)
-}
-input,select,button{
-  width:100%;padding:12px;
-  border-radius:10px;border:none;margin:10px 0
-}
-button{background:#1eff8b;color:#003b1f;font-weight:bold;cursor:pointer}
-.result{
-  background:#0e3b28;padding:20px;
-  border-radius:15px;margin-top:20px
-}
-footer{
-  background:#08140f;
-  text-align:center;
-  padding:30px;font-size:.9rem
-}
-canvas{border:2px solid #1eff8b;border-radius:10px;margin-top:20px}
-</style>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zerofy - Carbon Footprint Calculator</title>
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --primary: #00ff88;
+            --bg: #000000;
+            --card-bg: #111111;
+            --text: #ffffff;
+            --text-muted: #888888;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px; /* Mobile app feel */
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span { color: var(--primary); }
+
+        /* Sections */
+        .section {
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 15px;
+        }
+
+        h1 span { color: var(--primary); }
+
+        p { color: var(--text-muted); line-height: 1.5; margin-bottom: 30px; }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 30px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: #000;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #333;
+            color: var(--text);
+        }
+
+        .btn:active { transform: scale(0.98); }
+
+        /* Form Inputs */
+        .input-group {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .slider-val { color: var(--primary); }
+
+        input[type=range] {
+            width: 100%;
+            height: 6px;
+            background: #333;
+            border-radius: 5px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+        }
+
+        .diet-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .diet-btn {
+            background: #222;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .diet-btn.selected {
+            border-color: var(--primary);
+            background: #1a3325;
+        }
+
+        /* Results */
+        .score-card {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .score-val {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .unit { font-size: 1rem; color: var(--text-muted); }
+
+        .tip-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .tip-icon { font-size: 1.5rem; }
+
+        /* Certificate */
+        .cert-container {
+            background: #fff;
+            color: #000;
+            padding: 30px;
+            border-radius: 10px;
+            border: 8px solid #f0e68c; /* Goldish border */
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .cert-title {
+            font-family: serif;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            letter-spacing: 2px;
+        }
+
+        .cert-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 20px 0;
+            border-bottom: 2px solid #000;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .cert-badge {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .verified-badge {
+            background: #FFD700;
+            color: #000;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            background: #222;
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+    </style>
+</head>
 <body>
 
-<header>
-  <div>
-    <h1>Zerofy</h1>
-    <p>Measure • Reduce • Offset  
-    Track your carbon footprint and earn a Green Certificate.</p>
-    <a href="#calculator" class="btn">Calculate Now</a>
-  </div>
-</header>
+<div class="app-container">
+    <header>
+        <div class="logo">🍃 ZEROFY</div>
+    </header>
 
-<section>
-<h2>Why Zerofy?</h2>
-<div class="cards">
-  <div class="card">🌍 Realistic carbon footprint calculation</div>
-  <div class="card">📉 Actionable emission reduction tips</div>
-  <div class="card">📜 Free downloadable green certificate</div>
-  <div class="card">🚀 Built for individuals & small businesses</div>
+    <div id="section-landing" class="section active">
+        <h1>Calculate Your <br><span>Carbon Footprint</span></h1>
+        <p>Understand your impact on the environment with our advanced AI-powered calculator. Get actionable tips and earn your official Green Certificate.</p>
+        <button class="btn btn-primary" onclick="goToSection('section-input')">Start Calculation →</button>
+        <button class="btn btn-outline">📷 Follow Zerofy</button>
+    </div>
+
+    <div id="section-input" class="section">
+        <h2>Input Your Lifestyle Data</h2>
+        <p>Be honest for the most accurate result.</p>
+
+        <div class="input-group">
+            <div class="input-label">
+                <span>🚗 Car Travel (km/week)</span>
+                <span id="val-car" class="slider-val">0 km</span>
+            </div>
+            <input type="range" id="range-car" min="0" max="1000" value="0" oninput="updateVal('car', 'km')">
+            
+            <br><br>
+
+            <div class="input-label">
+                <span>✈️ Flights (hours/year)</span>
+                <span id="val-flight" class="slider-val">0 hrs</span>
+            </div>
+            <input type="range" id="range-flight" min="0" max="100" value="0" oninput="updateVal('flight', 'hrs')">
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">
+                <span>⚡ Home Energy Bill ($/mo)</span>
+                <span id="val-energy" class="slider-val">$0</span>
+            </div>
+            <input type="range" id="range-energy" min="0" max="500" value="0" oninput="updateVal('energy', '$')">
+        </div>
+
+        <div class="input-group">
+            <div style="margin-bottom:10px;">🍽️ Diet & Habits</div>
+            <div class="diet-options">
+                <div class="diet-btn" onclick="selectDiet(this, 3.3)" id="diet-meat">🍖 Meat Eater</div>
+                <div class="diet-btn" onclick="selectDiet(this, 1.7)">🥚 Vegetarian</div>
+                <div class="diet-btn" onclick="selectDiet(this, 1.5)">🥗 Vegan</div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="calculateAndShow()">Calculate My Footprint</button>
+    </div>
+
+    <div id="section-results" class="section">
+        <div class="score-card">
+            <div>Your Annual Carbon Footprint</div>
+            <div class="score-val" id="result-score">0.00</div>
+            <div class="unit">Tonnes CO₂e</div>
+            <p style="margin-top:10px; font-size: 0.9rem;">
+                Not bad! You are near the average, but there is room for improvement.
+            </p>
+        </div>
+
+        <div class="tip-card">
+            <div class="tip-icon">🚲</div>
+            <div>
+                <strong>Transport Tip</strong><br>
+                Consider carpooling or using public transport one extra day a week.
+            </div>
+        </div>
+
+        <div class="tip-card">
+            <div class="tip-icon">💡</div>
+            <div>
+                <strong>Energy Tip</strong><br>
+                Switching to LED bulbs can reduce home emissions by 15%.
+            </div>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <h3>Get Your Green Certificate</h3>
+            <p>Commit to a greener future.</p>
+            <input type="text" id="user-name" placeholder="Enter your full name">
+            <button class="btn btn-primary" onclick="generateCertificate()">Get Certificate</button>
+        </div>
+    </div>
+
+    <div id="section-cert" class="section">
+        <h2>Congratulations!</h2>
+        <p>Here is your verified environmental awareness certificate.</p>
+
+        <div class="cert-container">
+            <div class="cert-badge">🍃</div>
+            <div class="cert-title">CERTIFICATE</div>
+            <div style="font-size: 0.8rem; letter-spacing: 1px;">OF ENVIRONMENTAL AWARENESS</div>
+            
+            <div style="margin-top: 20px; font-style: italic;">This certifies that</div>
+            <div class="cert-name" id="cert-display-name">User Name</div>
+            
+            <div>Has successfully calculated their carbon footprint and pledged to a greener future.</div>
+            
+            <div class="verified-badge">
+                ✔️ <span id="cert-date">DATE</span> • VERIFIED
+            </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="downloadCert()">⬇️ Download Certificate</button>
+        <button class="btn btn-outline" onclick="location.reload()">Start Over</button>
+    </div>
+
 </div>
-</section>
-
-<section id="calculator">
-<h2>Carbon Footprint Calculator</h2>
-<div class="card">
-<label>Monthly Electricity Usage (kWh)</label>
-<input id="electricity" type="number" placeholder="e.g. 150">
-
-<label>Monthly Travel (km)</label>
-<input id="travel" type="number" placeholder="e.g. 300">
-
-<label>Diet Type</label>
-<select id="diet">
-  <option value="2">Vegetarian</option>
-  <option value="4">Mixed</option>
-  <option value="6">Non-Vegetarian</option>
-</select>
-
-<button onclick="calculate()">Calculate Emissions</button>
-
-<div id="output" class="result" style="display:none"></div>
-</div>
-</section>
-
-<section>
-<h2>How You Can Reduce Emissions</h2>
-<div class="cards">
-  <div class="card">🔌 Use LED & energy-efficient appliances</div>
-  <div class="card">🚲 Prefer public transport or cycling</div>
-  <div class="card">🌱 Reduce meat consumption</div>
-  <div class="card">☀️ Switch to renewable energy</div>
-</div>
-</section>
-
-<section>
-<h2>Your Green Certificate</h2>
-<div class="card" style="text-align:center">
-  <p>After calculating, generate your free certificate</p>
-  <button onclick="generateCertificate()">Generate Certificate</button>
-  <canvas id="certificate" width="700" height="450"></canvas>
-</div>
-</section>
-
-<footer>
-<p>© 2025 Zerofy | Building a Net-Zero Future 🌱</p>
-<p>Instagram: @zerofy__official</p>
-</footer>
 
 <script>
-function calculate(){
-  let e = Number(electricity.value) * 0.82;
-  let t = Number(travel.value) * 0.21;
-  let d = Number(diet.value) * 30;
-  let total = (e + t + d).toFixed(2);
+    /* --- JAVASCRIPT LOGIC --- */
+    
+    let dietFactor = 0; // Default
 
-  output.style.display="block";
-  output.innerHTML = `
-  <h3>Total Emissions</h3>
-  <p><b>${total} kg CO₂ / month</b></p>
-  <p>You are taking the first step toward sustainability 🌱</p>
-  `;
-}
+    // Navigation
+    function goToSection(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
 
-function generateCertificate(){
-  let c = document.getElementById("certificate");
-  let ctx = c.getContext("2d");
+    // Slider UI Updates
+    function updateVal(type, unit) {
+        const val = document.getElementById('range-' + type).value;
+        const display = unit === '$' ? `$${val}` : `${val} ${unit}`;
+        document.getElementById('val-' + type).innerText = display;
+    }
 
-  ctx.fillStyle="#0b1d14";
-  ctx.fillRect(0,0,c.width,c.height);
+    // Diet Selection
+    function selectDiet(elem, factor) {
+        // Remove active class from all
+        document.querySelectorAll('.diet-btn').forEach(b => b.classList.remove('selected'));
+        // Add to clicked
+        elem.classList.add('selected');
+        dietFactor = factor;
+    }
 
-  ctx.strokeStyle="#1eff8b";
-  ctx.lineWidth=6;
-  ctx.strokeRect(10,10,c.width-20,c.height-20);
+    // Calculation Logic
+    function calculateAndShow() {
+        // 1. Get Values
+        const carKm = parseInt(document.getElementById('range-car').value) || 0;
+        const flightHrs = parseInt(document.getElementById('range-flight').value) || 0;
+        const energyBill = parseInt(document.getElementById('range-energy').value) || 0;
+        
+        // 2. Default diet if none selected (Meat eater average)
+        if(dietFactor === 0) dietFactor = 2.5;
 
-  ctx.fillStyle="#7CFFB2";
-  ctx.font="30px Arial";
-  ctx.fillText("Zerofy Green Certificate",160,80);
+        // 3. Approximate Formulas (Annualized)
+        // Car: 114km/week * 52 weeks * 0.192kg/km
+        const carEmission = carKm * 52 * 0.192;
+        
+        // Flight: 250kg per hour
+        const flightEmission = flightHrs * 250;
+        
+        // Energy: $1 buys ~6.6kWh (avg global). 0.4kg per kWh. 12 months.
+        // Formula: Bill * 12 * 6.6 * 0.4
+        const energyEmission = energyBill * 12 * 6.6 * 0.4;
+        
+        // Diet is already in Tonnes, convert to kg for sum
+        const dietEmission = dietFactor * 1000;
 
-  ctx.fillStyle="#ffffff";
-  ctx.font="18px Arial";
-  ctx.fillText("This certifies that",270,150);
+        // Total in Tonnes
+        const totalKg = carEmission + flightEmission + energyEmission + dietEmission;
+        const totalTonnes = (totalKg / 1000).toFixed(2);
 
-  ctx.font="26px Arial";
-  ctx.fillText("You Support Carbon Reduction",160,190);
+        // 4. Update UI
+        document.getElementById('result-score').innerText = totalTonnes;
+        
+        // 5. Navigate
+        goToSection('section-results');
+    }
 
-  ctx.font="16px Arial";
-  ctx.fillText("Issued by Zerofy",290,260);
-  ctx.fillText(new Date().toDateString(),280,300);
-}
+    // Certificate Generation
+    function generateCertificate() {
+        const name = document.getElementById('user-name').value;
+        if(!name) {
+            alert("Please enter your name first!");
+            return;
+        }
+
+        // Set Name
+        document.getElementById('cert-display-name').innerText = name;
+        
+        // Set Date
+        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('cert-date').innerText = new Date().toLocaleDateString('en-US', dateOptions);
+
+        goToSection('section-cert');
+    }
+
+    function downloadCert() {
+        alert("Certificate Downloaded! (This is a demo action)");
+    }
+
 </script>
 
 </body>
