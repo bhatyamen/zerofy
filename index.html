@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -79,7 +78,6 @@
         .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem; font-family: 'Inter', sans-serif; }
         .form-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
         
-        /* Validation Message Style */
         .input-warning { color: var(--warning); font-size: 0.8rem; margin-top: 5px; font-weight: 500; display: none; }
         .disclaimer-text { font-size: 0.75rem; color: var(--text-gray); margin-top: 15px; font-style: italic; text-align: center; }
 
@@ -93,13 +91,11 @@
 
         .result-value { font-size: 3rem; font-weight: 700; color: var(--text-dark); display: block; line-height: 1; margin: 10px 0; }
         
-        /* Visual Badges */
         .badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px; }
         .badge-low { background: #d1fae5; color: var(--primary-dark); }
         .badge-med { background: #fef3c7; color: #b45309; }
         .badge-high { background: #fee2e2; color: #b91c1c; }
 
-        /* Progress Bar */
         .progress-container { width: 100%; height: 12px; background-color: #e5e7eb; border-radius: 6px; margin: 20px 0; overflow: hidden; }
         .progress-bar { height: 100%; border-radius: 6px; width: 0%; transition: width 1s ease, background-color 0.5s ease; }
 
@@ -109,15 +105,26 @@
         .tip-card { background: var(--white); padding: 25px; border-radius: 10px; border-left: 5px solid var(--primary); transition: transform 0.2s; }
         .tip-card:hover { transform: translateY(-3px); }
 
-        /* --- CERTIFICATE --- */
+        /* --- CERTIFICATE (FIXED FOR PDF) --- */
         #certificate { background-color: var(--white); }
+        
         .cert-preview {
-            width: 100%; max-width: 800px; margin: 40px auto; padding: 50px; border: 10px double var(--secondary);
-            text-align: center; background: #fff; position: relative; display: none;
+            width: 100%; 
+            max-width: 800px; 
+            margin: 40px auto; 
+            padding: 50px; 
+            border: 5px solid var(--secondary); /* Simplified border */
+            text-align: center; 
+            background-color: #ffffff !important; /* Force white background */
+            color: #000000 !important; /* Force black text */
+            position: relative; 
+            display: none;
         }
+
         .cert-logo { font-size: 2rem; font-weight: bold; color: var(--primary); margin-bottom: 10px; }
-        .cert-title { font-size: 3rem; margin-bottom: 20px; font-family: 'Poppins', serif; }
-        .cert-name { font-size: 2rem; font-weight: bold; border-bottom: 2px solid #333; display: inline-block; padding: 0 20px; margin: 10px 0; }
+        .cert-title { font-size: 3rem; margin-bottom: 20px; font-family: 'Poppins', serif; color: #064E3B; }
+        .cert-name { font-size: 2rem; font-weight: bold; border-bottom: 2px solid #333; display: inline-block; padding: 0 20px; margin: 10px 0; color: #111; }
+        
         .payment-alert { background: #fff3cd; color: #856404; padding: 10px; border-radius: 5px; margin-top: 10px; font-size: 0.9rem; display: none; }
 
         /* --- FOOTER & MODALS --- */
@@ -216,7 +223,6 @@
                     
                     <p class="disclaimer-text">
                         *Estimates based on standard GHG Protocol emission factors. Regional variations may apply. 
-                        We use globally accepted averages for transparency.
                     </p>
                 </form>
 
@@ -317,7 +323,7 @@
             <h3>Zerofy</h3>
             <div class="footer-links">
                 <a href="https://instagram.com/zerofy__official" target="_blank" style="color: white;">Instagram</a>
-                <button onclick="openGenericModal('Privacy Policy', 'Data is stored locally on your device for privacy. We do not track you.')">Privacy</button>
+                <button onclick="openGenericModal('Privacy Policy', 'Data is stored locally on your device for privacy.')">Privacy</button>
                 <button onclick="openGenericModal('Terms', 'By using Zerofy, you agree to take steps to reduce your carbon footprint.')">Terms</button>
             </div>
             <p style="margin-top: 30px; font-size: 0.8rem;">&copy; 2025 Zerofy. All rights reserved.</p>
@@ -338,7 +344,6 @@
         let emissionLevel = "Low";
         const STORAGE_KEY = 'zerofy_user_data';
 
-        // Load data on startup
         document.addEventListener('DOMContentLoaded', () => {
             loadFromStorage();
         });
@@ -346,27 +351,16 @@
         // --- CALCULATOR LOGIC ---
         function calculateCarbon(e) {
             e.preventDefault();
-            
             const electricity = parseFloat(document.getElementById('electricity').value) || 0;
             const transport = parseFloat(document.getElementById('transport').value) || 0;
             const fuelType = document.getElementById('fuel').value;
 
-            // 1. INPUT VALIDATION (Soft Warnings)
             const elecWarn = document.getElementById('elec-warn');
             const transWarn = document.getElementById('trans-warn');
-            
-            // Logic: > 2000 kWh/month is very high for a home
             elecWarn.style.display = (electricity > 2000) ? 'block' : 'none';
-            // Logic: > 5000 km/month is very high for personal transport
             transWarn.style.display = (transport > 5000) ? 'block' : 'none';
 
-            // 2. CALCULATION (Improved Coefficients)
-            // Electricity: ~0.85 kg/kWh (Avg grid intensity)
-            // Petrol Car: ~0.192 kg/km | Diesel Car: ~0.171 kg/km (lower CO2 but higher NOX) -> using 0.2 approx
-            // EV: ~0.05 kg/km (grid dependent)
-            // Bus: ~0.08 kg/km | Bike: ~0.1 kg/km
-            
-            let transportFactor = 0.2; // default car
+            let transportFactor = 0.2; 
             if (fuelType === 'petrol') transportFactor = 0.22;
             if (fuelType === 'diesel') transportFactor = 0.24;
             if (fuelType === 'electric') transportFactor = 0.06;
@@ -375,55 +369,45 @@
 
             const annualElec = electricity * 12 * 0.85; 
             const annualTrans = transport * 12 * transportFactor;
-            
             currentCO2 = Math.round(annualElec + annualTrans);
 
-            // 3. DETERMINE LEVEL & VISUALS
             updateResultUI();
-
-            // 4. GENERATE TIPS
             generateTips(emissionLevel);
-
-            // 5. SAVE STATE
             saveToStorage();
         }
 
         function updateResultUI() {
-            // Determine Level
             const progressBar = document.getElementById('carbonProgress');
             const badge = document.getElementById('badgeDisplay');
             let progressPercent = 0;
-            let color = '';
 
             if (currentCO2 < 3000) {
                 emissionLevel = "Low";
-                color = '#10B981'; // Green
                 badge.className = 'badge badge-low';
-                progressPercent = Math.min((currentCO2 / 10000) * 100, 30); // Scale up to 30% of bar
+                progressPercent = Math.min((currentCO2 / 10000) * 100, 30);
+                progressBar.style.backgroundColor = '#10B981';
             } else if (currentCO2 < 8000) {
                 emissionLevel = "Medium";
-                color = '#F59E0B'; // Orange
                 badge.className = 'badge badge-med';
                 progressPercent = Math.min((currentCO2 / 10000) * 100, 70);
+                progressBar.style.backgroundColor = '#F59E0B';
             } else {
                 emissionLevel = "High";
-                color = '#EF4444'; // Red
                 badge.className = 'badge badge-high';
                 progressPercent = Math.min((currentCO2 / 10000) * 100, 100);
+                progressBar.style.backgroundColor = '#EF4444';
             }
 
             badge.innerText = `${emissionLevel} Emissions`;
             document.getElementById('resultValue').innerText = `${currentCO2.toLocaleString()} kg CO₂`;
             document.getElementById('resultBox').style.display = 'block';
 
-            // Animate Bar
             setTimeout(() => {
                 progressBar.style.width = `${progressPercent}%`;
-                progressBar.style.backgroundColor = color;
             }, 100);
         }
 
-        // --- LOCAL STORAGE FUNCTIONS ---
+        // --- STORAGE ---
         function saveToStorage() {
             const data = {
                 elec: document.getElementById('electricity').value,
@@ -431,8 +415,7 @@
                 fuel: document.getElementById('fuel').value,
                 co2: currentCO2,
                 level: emissionLevel,
-                name: document.getElementById('certNameInput').value,
-                date: new Date().toISOString()
+                name: document.getElementById('certNameInput').value
             };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
         }
@@ -441,14 +424,10 @@
             const stored = localStorage.getItem(STORAGE_KEY);
             if (stored) {
                 const data = JSON.parse(stored);
-                
-                // Populate inputs
                 document.getElementById('electricity').value = data.elec || '';
                 document.getElementById('transport').value = data.trans || '';
                 document.getElementById('fuel').value = data.fuel || 'petrol';
                 document.getElementById('certNameInput').value = data.name || '';
-
-                // Restore Result if it exists
                 if (data.co2 > 0) {
                     currentCO2 = data.co2;
                     emissionLevel = data.level;
@@ -459,55 +438,31 @@
         }
 
         function resetCalculator() {
-            // Clear UI
             document.getElementById('carbonForm').reset();
             document.getElementById('resultBox').style.display = 'none';
-            document.getElementById('elec-warn').style.display = 'none';
-            document.getElementById('trans-warn').style.display = 'none';
             document.getElementById('certNameInput').value = '';
-            document.getElementById('tips-grid').innerHTML = `
-                <div class="tip-card text-center" style="grid-column: 1 / -1; border: none; background: transparent;">
-                    <span style="font-size: 3rem;">🌱</span>
-                    <p>Waiting for calculation data...</p>
-                </div>
-            `;
-            
-            // Clear Storage
+            document.getElementById('tips-grid').innerHTML = '<div class="tip-card text-center" style="grid-column: 1 / -1; border: none; background: transparent;"><span style="font-size: 3rem;">🌱</span><p>Waiting for calculation data...</p></div>';
             localStorage.removeItem(STORAGE_KEY);
             currentCO2 = 0;
-            
-            // Focus
             document.getElementById('calculator').scrollIntoView();
         }
 
-        // --- TIPS LOGIC ---
         function generateTips(level) {
             const container = document.getElementById('tips-grid');
             const subtitle = document.getElementById('tips-subtitle');
             let html = '';
-
             subtitle.innerText = `Status: ${level} Emissions. Here is your plan:`;
-
             if (level === "Low") {
-                html = `
-                    <div class="tip-card"><h3>✅ Doing Great!</h3><p>Your footprint is sustainable. Keep maintaining your habits.</p></div>
-                    <div class="tip-card"><h3>☀️ Next Step: Renewables</h3><p>Consider supporting green energy providers.</p></div>
-                    <div class="tip-card"><h3>♻️ Waste Less</h3><p>Focus on composting and reducing plastic waste.</p></div>`;
+                html = '<div class="tip-card"><h3>✅ Doing Great!</h3><p>Your footprint is sustainable. Keep maintaining your habits.</p></div><div class="tip-card"><h3>☀️ Next Step: Renewables</h3><p>Consider supporting green energy providers.</p></div><div class="tip-card"><h3>♻️ Waste Less</h3><p>Focus on composting and reducing plastic waste.</p></div>';
             } else if (level === "Medium") {
-                html = `
-                    <div class="tip-card"><h3>💡 LED Upgrade</h3><p>Switch all bulbs to LEDs. It saves 75% energy instantly.</p></div>
-                    <div class="tip-card"><h3>🔌 Smart Strips</h3><p>Use smart power strips to kill vampire power usage.</p></div>
-                    <div class="tip-card"><h3>🚍 Transit Swap</h3><p>Replace 2 car trips/week with bus or train.</p></div>`;
+                html = '<div class="tip-card"><h3>💡 LED Upgrade</h3><p>Switch all bulbs to LEDs. It saves 75% energy instantly.</p></div><div class="tip-card"><h3>🔌 Smart Strips</h3><p>Use smart power strips to kill vampire power usage.</p></div><div class="tip-card"><h3>🚍 Transit Swap</h3><p>Replace 2 car trips/week with bus or train.</p></div>';
             } else {
-                html = `
-                    <div class="tip-card" style="border-left-color: #EF4444;"><h3>🚨 Heating/Cooling</h3><p>Adjust AC by 2°C. It makes a massive difference.</p></div>
-                    <div class="tip-card" style="border-left-color: #EF4444;"><h3>✈️ Flight Check</h3><p>Reduce air travel. One long-haul flight equals months of driving.</p></div>
-                    <div class="tip-card" style="border-left-color: #EF4444;"><h3>🥩 Meat Reduction</h3><p>Try a plant-based diet 3 days a week.</p></div>`;
+                html = '<div class="tip-card" style="border-left-color: #EF4444;"><h3>🚨 Heating/Cooling</h3><p>Adjust AC by 2°C. It makes a massive difference.</p></div><div class="tip-card" style="border-left-color: #EF4444;"><h3>✈️ Flight Check</h3><p>Reduce air travel. One long-haul flight equals months of driving.</p></div><div class="tip-card" style="border-left-color: #EF4444;"><h3>🥩 Meat Reduction</h3><p>Try a plant-based diet 3 days a week.</p></div>';
             }
             container.innerHTML = html;
         }
 
-        // --- CERTIFICATE LOGIC ---
+        // --- FIXED PDF GENERATION LOGIC ---
         function generateCertificate() {
             if (currentCO2 === 0) {
                 alert("Please calculate your emissions first.");
@@ -515,40 +470,37 @@
                 return;
             }
             const name = document.getElementById('certNameInput').value;
-            if (!name) { alert("Please enter a name for the certificate."); return; }
-
-            // Save name to storage
-            saveToStorage();
+            if (!name) { alert("Please enter a name."); return; }
 
             document.getElementById('certNameDisplay').innerText = name;
             document.getElementById('certScore').innerText = currentCO2.toLocaleString();
             document.getElementById('certDate').innerText = new Date().toLocaleDateString();
             document.getElementById('certId').innerText = 'ZFY-' + Math.floor(Math.random() * 100000);
 
-            document.getElementById('certificateCanvas').style.display = 'block';
+            const certBox = document.getElementById('certificateCanvas');
+            certBox.style.display = 'block';
             document.getElementById('downloadBtn').classList.remove('hidden');
         }
 
         function downloadPDF() {
             const element = document.getElementById('certificateCanvas');
+            
+            // Configuration for robust PDF generation
             const opt = {
-                margin: 10,
-                filename: 'Zerofy-Certificate.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+                margin:       10,
+                filename:     'Zerofy-Certificate.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, logging: true }, // useCORS fixes blank PDFs
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
             };
+            
+            // Execute
             html2pdf().set(opt).from(element).save();
         }
 
         // --- UTILS ---
         function scrollToTips() {
-            if (currentCO2 === 0) {
-                alert("Calculate first!");
-                document.getElementById('calculator').scrollIntoView();
-            } else {
-                document.getElementById('tips').scrollIntoView();
-            }
+            currentCO2 === 0 ? alert("Calculate first!") : document.getElementById('tips').scrollIntoView();
         }
         function alertPayment() {
             const alertBox = document.getElementById('paymentAlert');
