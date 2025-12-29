@@ -1,183 +1,619 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zerofy | Carbon Footprint Calculator</title>
-
-<style>
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:linear-gradient(to bottom,#0f2027,#203a43,#2c5364);
-color:white;
-scroll-behavior:smooth;
-}
-
-header{
-padding:40px;
-text-align:center;
-background:rgba(0,0,0,0.4);
-}
-
-header h1{
-font-size:48px;
-margin:0;
-color:#00ff9d;
-}
-
-header p{
-font-size:18px;
-opacity:0.9;
-}
-
-section{
-padding:60px 20px;
-max-width:1000px;
-margin:auto;
-}
-
-.card{
-background:rgba(255,255,255,0.1);
-padding:30px;
-border-radius:15px;
-margin-bottom:40px;
-box-shadow:0 0 20px rgba(0,0,0,0.3);
-}
-
-.card h2{
-color:#00ff9d;
-margin-top:0;
-}
-
-input,button{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:none;
-border-radius:8px;
-font-size:16px;
-}
-
-input{
-background:white;
-}
-
-button{
-background:#00ff9d;
-cursor:pointer;
-font-weight:bold;
-}
-
-button:hover{
-background:#00cc7a;
-}
-
-.result{
-margin-top:15px;
-font-size:18px;
-}
-
-footer{
-text-align:center;
-padding:20px;
-background:rgba(0,0,0,0.4);
-opacity:0.8;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zerofy | Track • Reduce • Certify Your Carbon Footprint</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables for Theme */
+        :root {
+            --primary-dark: #0A1929;
+            --secondary-dark: #1A2B3C;
+            --accent-green: #00C9A7;
+            --accent-light: #4DFFD8;
+            --accent-blue: #3A7CA5;
+            --text-primary: #F0F7FF;
+            --text-secondary: #B0C7D9;
+            --card-bg: rgba(26, 43, 60, 0.8);
+            --gradient-bg: linear-gradient(135deg, var(--primary-dark) 0%, #0D2B3E 50%, #0A2329 100%);
+            --gradient-green: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-light) 100%);
+            --border-radius: 16px;
+            --transition: all 0.3s ease;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --shadow-green: 0 10px 30px rgba(0, 201, 167, 0.2);
+        }
+        
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--gradient-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            background: var(--gradient-green);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-green);
+            border-radius: 2px;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+        }
+        
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .section-subtitle {
+            color: var(--accent-green);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+        
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            padding: 5rem 0;
+            position: relative;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-green);
+            color: var(--primary-dark);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-green);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent-green);
+            border: 2px solid var(--accent-green);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(0, 201, 167, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .hero-tagline {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 201, 167, 0.1) 0%, rgba(10, 25, 41, 0) 70%);
+            z-index: 1;
+        }
+        
+        /* Section Styles */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header h2 {
+            display: inline-block;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 201, 167, 0.1);
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 201, 167, 0.3);
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0, 201, 167, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--accent-green);
+        }
+        
+        /* Calculator */
+        .calculator-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 2px rgba(0, 201, 167, 0.2);
+        }
+        
+        .calc-result {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .co2-value {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: var(--gradient-green);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 1rem 0;
+        }
+        
+        .co2-equivalent {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            margin: 2rem 0;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-green);
+            width: 0%;
+            border-radius: 5px;
+            transition: width 1s ease-in-out;
+        }
+        
+        /* Certificate */
+        .certificate-card {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        
+        .certificate-icon {
+            font-size: 4rem;
+            color: var(--accent-green);
+            margin-bottom: 1.5rem;
+        }
+        
+        .price-tag {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin: 1rem 0;
+        }
+        
+        .certificate-preview {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            color: #333;
+            text-align: left;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .certificate-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-green);
+        }
+        
+        .certificate-logo {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--accent-green);
+        }
+        
+        .certificate-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 6rem;
+            color: rgba(0, 201, 167, 0.1);
+            font-weight: 700;
+            z-index: 0;
+            white-space: nowrap;
+        }
+        
+        .certificate-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Coming Soon */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .coming-soon {
+            opacity: 0.7;
+            position: relative;
+        }
+        
+        .coming-soon-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--secondary-dark);
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .social-link:hover {
+            background: var(--accent-green);
+            color: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .hero-tagline {
+                font-size: 1.5rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            section {
+                padding: 3rem 0;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .certificate-preview {
+                padding: 1.5rem;
+            }
+            
+            .certificate-watermark {
+                font-size: 4rem;
+            }
+        }
+        
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
-
 <body>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Zerofy</h1>
+                <p class="hero-tagline">Track • Reduce • Certify Your Carbon Footprint</p>
+                <p>An AI-powered carbon footprint tracking and green certification platform designed for individuals, startups, and small businesses.</p>
+                <div class="btn-group">
+                    <a href="#calculator" class="btn btn-primary">
+                        <i class="fas fa-calculator"></i> Calculate Footprint
+                    </a>
+                    <a href="#certificate" class="btn btn-secondary">
+                        <i class="fas fa-certificate"></i> Get Free Green Certificate
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-bg"></div>
+    </section>
 
-<header>
-<h1>Zerofy</h1>
-<p>Track • Reduce • Certify Your Carbon Footprint</p>
-</header>
+    <!-- About Zerofy -->
+    <section id="about">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-subtitle">Our Mission</span>
+                <h2>About Zerofy</h2>
+            </div>
+            <div class="feature-grid">
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>What is Zerofy?</h3>
+                    <p>Zerofy is an AI-powered platform that helps you track, understand, and reduce your carbon emissions. We provide realistic calculations and actionable insights to make sustainability simple.</p>
+                </div>
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Why It Matters</h3>
+                    <p>Carbon emissions are the primary driver of climate change. By tracking your footprint, you take the first step toward meaningful reduction and contribute to a healthier planet.</p>
+                </div>
+                <div class="card fade-in">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Who It's For</h3>
+                    <p>From environmentally-conscious individuals to startups and small businesses, Zerofy provides tools for anyone committed to reducing their environmental impact.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section>
-
-<div class="card">
-<h2>🌍 What is Zerofy?</h2>
-<p>
-Zerofy helps individuals and small businesses calculate their carbon footprint,
-learn how to reduce emissions, and earn a green certificate for sustainable actions.
-</p>
-</div>
-
-<div class="card">
-<h2>📊 Carbon Footprint Calculator</h2>
-
-<label>Monthly Electricity Usage (kWh)</label>
-<input type="number" id="electricity" placeholder="e.g. 200">
-
-<label>Monthly Travel Distance (km)</label>
-<input type="number" id="travel" placeholder="e.g. 300">
-
-<button onclick="calculate()">Calculate Footprint</button>
-
-<div class="result" id="result"></div>
-</div>
-
-<div class="card">
-<h2>🌱 How to Reduce Emissions</h2>
-<ul>
-<li>Switch to LED lighting</li>
-<li>Use public transport or carpool</li>
-<li>Install solar panels</li>
-<li>Reduce meat consumption</li>
-<li>Recycle and reuse materials</li>
-</ul>
-</div>
-
-<div class="card">
-<h2>🏆 Free Green Certificate</h2>
-<p>
-After calculating your footprint, you can download a free green certificate
-showing your commitment to sustainability.
-</p>
-<button onclick="downloadCertificate()">Download Free Certificate</button>
-</div>
-
-<div class="card">
-<h2>🚀 Why Zerofy Matters</h2>
-<p>
-Climate change is real. Zerofy empowers people to understand their impact
-and take real steps toward a greener future.
-</p>
-</div>
-
-</section>
-
-<footer>
-<p>© 2025 Zerofy | Built for a Greener Planet 🌿</p>
-<p>Instagram: @zerofy__official</p>
-</footer>
-
-<script>
-function calculate(){
-let e = document.getElementById("electricity").value || 0;
-let t = document.getElementById("travel").value || 0;
-
-let footprint = (e * 0.82) + (t * 0.21);
-document.getElementById("result").innerHTML =
-"Your estimated carbon footprint is <b>" + footprint.toFixed(2) + " kg CO₂ / month</b>";
-}
-
-function downloadCertificate(){
-let text = 
-"Z E R O F Y  G R E E N  C E R T I F I C A T E\n\n" +
-"This certifies that you have taken\n" +
-"a step towards reducing carbon emissions.\n\n" +
-"Together for a greener future 🌱\n\n" +
-"— Zerofy";
-
-let blob = new Blob([text], {type: "text/plain"});
-let link = document.createElement("a");
-link.href = URL.createObjectURL(blob);
-link.download = "Zerofy_Green_Certificate.txt";
-link.click();
-}
-</script>
-
-</body>
-</html>
+    <!-- Carbon Footprint Calculator -->
+    <section id="calculator">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-subtitle">Track Your Impact</span>
+                <h2>Carbon Footprint Calculator</h2>
+                <p>Calculate your emissions in just a few steps. No login required.</p>
+            </div>
+            
+            <div class="calculator-container">
+                <div class="card fade-in">
+                    <form id="carbonCalculator">
+                        <div class="input-group">
+                            <label for="electricity"><i class="fas fa-bolt"></i> Monthly Electricity Usage (kWh)</label>
+                            <input type="number" id="electricity" min="0" step="10" value="200" required>
+                            <div class="progress-container">
+                                <div class="progress-label">
+                                    <span>Low Usage</span>
+                                    <span id="electricityValue">200 kWh</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="electricityProgress" style="width: 40%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="transport"><i class="fas fa-car"></i> Monthly Travel Distance (km)</label>
+                            <input type="number" id="transport" min="0" step="10" value="300" required>
+                            <div class="progress-container">
+                                <div class="progress-label">
+                                    <span>Low Travel</span>
+                                    <span id="transportValue">300 km</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="transportProgress" style="width: 30%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="waste"><i class="fas fa-trash"></i> Weekly Waste (kg)</label>
+                            <select id="waste">
+                                <option value="5">Low (5 kg/week)</option>
+                                <option value="10" selected>Average (10 kg/week)</option>
+                                <option value="20">High (20 kg/week)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="diet"><i class="fas fa-utensils"></i> Primary Diet</label>
+                            <select id="diet">
+                                <option value="vegan">Vegan</option>
+                                <option value="vegetarian">Vegetarian</option>
+                                <option value="meatLight">Meat (light)</option>
+                                <option value="meatHeavy" selected>Meat (regular)</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                            <i class="fas fa-calculator"></i> Calculate My Footprint
+                        </button>
+                    </form>
+                    
+                    <div class="calc-result" id="calcResult">
+                        <h3>Your Carbon Footprint</h3>
+                        <div class="co2-value" id="co2Value">0 kg CO₂</div>
+                        <p class="co2-equivalent" id="co2Equivalent">That's equivalent to planting 0 trees</p>
+                        <p>Your footprint is <span id="footprintLevel">average</span> compared to others in your region.</p>
+                        <div class="btn-group" style="justify-content: center; margin-top
