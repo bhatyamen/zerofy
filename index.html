@@ -9,23 +9,56 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins}
-body{background:#f4fdf7;color:#0f172a}
-header{padding:80px 20px;text-align:center;background:linear-gradient(135deg,#16a34a,#22c55e);color:white}
-header h1{font-size:3rem}
+body{background:#f0fdf4;color:#0f172a}
+header{
+  padding:90px 20px;
+  text-align:center;
+  background:linear-gradient(135deg,#16a34a,#22c55e);
+  color:white
+}
+header h1{font-size:3.2rem}
 header p{margin-top:10px;font-size:1.2rem}
 
 section{padding:80px 20px;max-width:1100px;margin:auto}
-h2{text-align:center;margin-bottom:30px;font-size:2.2rem}
+h2{text-align:center;margin-bottom:30px;font-size:2.3rem}
 
-.card{background:white;padding:30px;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.08);margin-bottom:40px}
+.card{
+  background:white;
+  padding:35px;
+  border-radius:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,.08);
+  margin-bottom:45px
+}
 
-input,button{width:100%;padding:12px;border-radius:10px;margin:8px 0;border:1px solid #ddd}
-button{background:#16a34a;color:white;font-weight:600;border:none;cursor:pointer}
+input,button{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  margin:10px 0;
+  border:1px solid #ddd;
+  font-size:1rem
+}
+
+button{
+  background:#16a34a;
+  color:white;
+  font-weight:600;
+  border:none;
+  cursor:pointer
+}
 button:hover{opacity:.9}
 
 .hidden{display:none}
 
-footer{background:#0f172a;color:white;text-align:center;padding:40px 20px}
+ul{padding-left:20px}
+li{margin:8px 0}
+
+footer{
+  background:#0f172a;
+  color:white;
+  text-align:center;
+  padding:40px 20px
+}
 footer a{color:#22c55e;text-decoration:none}
 </style>
 </head>
@@ -58,24 +91,35 @@ footer a{color:#22c55e;text-decoration:none}
 
 <!-- CALCULATOR -->
 <div class="card">
-<h2>Carbon Footprint Calculator</h2>
-<input id="units" type="number" placeholder="Monthly electricity units (kWh)">
-<button onclick="calculate()">Calculate</button>
-<p id="result"></p>
+<h2>Carbon Footprint Calculator 🌍</h2>
+
+<input id="electricity" type="number" placeholder="Electricity usage (kWh / month)">
+<input id="carKm" type="number" placeholder="Car travel (km / month)">
+<input id="bikeKm" type="number" placeholder="Bike travel (km / month)">
+<input id="publicKm" type="number" placeholder="Bus / Train travel (km / month)">
+<input id="flightKm" type="number" placeholder="Flight travel (km / month)">
+<input id="lpg" type="number" placeholder="LPG cylinders used per month">
+
+<button onclick="calculate()">Calculate Total Footprint</button>
+
+<h3 id="result" style="margin-top:20px"></h3>
 </div>
 
 <!-- TIPS -->
 <div class="card">
-<h2>Reduction Tips</h2>
+<h2>Personalized Reduction Tips ♻️</h2>
 <ul id="tips"></ul>
 </div>
 
 <!-- CERTIFICATE -->
 <div class="card">
-<h2>Green Certificate</h2>
+<h2>Green Certificate 🌿</h2>
 <input id="certName" placeholder="Your Name on Certificate">
 <button onclick="generateCertificate()">Generate Certificate</button>
-<canvas id="certificate" width="800" height="600" style="width:100%;margin-top:20px"></canvas>
+
+<canvas id="certificate" width="800" height="600"
+style="width:100%;margin-top:25px;border-radius:12px"></canvas>
+
 <button onclick="downloadCert()">Download Certificate</button>
 </div>
 
@@ -90,68 +134,90 @@ footer a{color:#22c55e;text-decoration:none}
 
 <script>
 function signup(){
-const e=email.value,p=password.value
-if(!e||!p){authMsg.innerText="Fill all fields";return}
-localStorage.setItem("zerofyUser",JSON.stringify({e,p}))
-authMsg.style.color="green"
-authMsg.innerText="Signup success! Login now."
+  const e=email.value,p=password.value;
+  if(!e||!p){authMsg.innerText="Fill all fields";return}
+  localStorage.setItem("zerofyUser",JSON.stringify({e,p}));
+  authMsg.style.color="green";
+  authMsg.innerText="Signup successful! Login now.";
 }
 
 function login(){
-const u=JSON.parse(localStorage.getItem("zerofyUser"))
-if(!u||u.e!==email.value||u.p!==password.value){
-authMsg.innerText="Invalid login";return}
-localStorage.setItem("zerofyLogin","yes")
-localStorage.setItem("zerofyEmail",u.e)
-showDashboard()
+  const u=JSON.parse(localStorage.getItem("zerofyUser"));
+  if(!u||u.e!==email.value||u.p!==password.value){
+    authMsg.innerText="Invalid login";return}
+  localStorage.setItem("zerofyLogin","yes");
+  localStorage.setItem("zerofyEmail",u.e);
+  showDashboard();
 }
 
 function logout(){
-localStorage.removeItem("zerofyLogin")
-location.reload()
+  localStorage.removeItem("zerofyLogin");
+  location.reload();
 }
 
 function showDashboard(){
-auth.classList.add("hidden")
-dashboard.classList.remove("hidden")
-userEmail.innerText="Logged in as: "+localStorage.getItem("zerofyEmail")
+  auth.classList.add("hidden");
+  dashboard.classList.remove("hidden");
+  userEmail.innerText="Logged in as: "+localStorage.getItem("zerofyEmail");
 }
 
-if(localStorage.getItem("zerofyLogin")==="yes")showDashboard()
+if(localStorage.getItem("zerofyLogin")==="yes")showDashboard();
 
 function calculate(){
-const u=+units.value
-if(!u)return
-const co2=(u*0.82).toFixed(2)
-result.innerText=`Estimated CO₂ Emissions: ${co2} kg/month`
-tips.innerHTML=`
-<li>Switch to LED lights</li>
-<li>Use solar where possible</li>
-<li>Turn off idle appliances</li>
-<li>Buy energy efficient devices</li>`
+  const electricity = +electricity.value || 0;
+  const car = +carKm.value || 0;
+  const bike = +bikeKm.value || 0;
+  const pub = +publicKm.value || 0;
+  const flight = +flightKm.value || 0;
+  const lpgCyl = +lpg.value || 0;
+
+  const total =
+    electricity * 0.82 +
+    car * 0.192 +
+    bike * 0.103 +
+    pub * 0.041 +
+    flight * 0.15 +
+    lpgCyl * 42;
+
+  result.innerText =
+    `🌱 Estimated CO₂ Emissions: ${total.toFixed(2)} kg / month`;
+
+  tips.innerHTML = `
+    <li>Reduce electricity use or shift to solar</li>
+    <li>Carpool or use electric vehicles</li>
+    <li>Prefer public transport</li>
+    <li>Limit flights where possible</li>
+    <li>Use energy-efficient cooking appliances</li>
+    <li>Plant trees to offset emissions 🌳</li>
+  `;
 }
 
 function generateCertificate(){
-const c=document.getElementById("certificate")
-const ctx=c.getContext("2d")
-ctx.fillStyle="#eafff1"
-ctx.fillRect(0,0,800,600)
-ctx.fillStyle="#166534"
-ctx.font="40px Poppins"
-ctx.fillText("Zerofy Green Certificate",200,120)
-ctx.font="26px Poppins"
-ctx.fillText("This certifies that",280,220)
-ctx.font="34px Poppins"
-ctx.fillText(certName.value||"User",300,280)
-ctx.font="24px Poppins"
-ctx.fillText("has taken a step towards sustainability 🌱",170,350)
+  const c=certificate;
+  const ctx=c.getContext("2d");
+
+  ctx.fillStyle="#ecfdf5";
+  ctx.fillRect(0,0,800,600);
+
+  ctx.fillStyle="#166534";
+  ctx.font="42px Poppins";
+  ctx.fillText("Zerofy Green Certificate",190,120);
+
+  ctx.font="26px Poppins";
+  ctx.fillText("This certifies that",280,230);
+
+  ctx.font="36px Poppins";
+  ctx.fillText(certName.value || "Zerofy User",260,300);
+
+  ctx.font="24px Poppins";
+  ctx.fillText("has taken a step towards sustainability 🌱",160,380);
 }
 
 function downloadCert(){
-const link=document.createElement("a")
-link.download="zerofy-certificate.png"
-link.href=certificate.toDataURL()
-link.click()
+  const link=document.createElement("a");
+  link.download="zerofy-green-certificate.png";
+  link.href=certificate.toDataURL();
+  link.click();
 }
 </script>
 
