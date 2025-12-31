@@ -1,225 +1,497 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zerofy | Measure • Reduce • Certify</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zerofy | Sustainability Reimagined</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #ffffff;
+            --accent-color: #ccff00; /* Neon Lime - Premium Sporty Feel */
+            --card-bg: #111111;
+            --border-color: #333333;
+            --font-main: 'Inter', sans-serif;
+        }
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins}
-body{background:#f0fdf4;color:#0f172a}
-header{
-  padding:90px 20px;
-  text-align:center;
-  background:linear-gradient(135deg,#16a34a,#22c55e);
-  color:white
-}
-header h1{font-size:3.2rem}
-header p{margin-top:10px;font-size:1.2rem}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-section{padding:80px 20px;max-width:1100px;margin:auto}
-h2{text-align:center;margin-bottom:30px;font-size:2.3rem}
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
 
-.card{
-  background:white;
-  padding:35px;
-  border-radius:20px;
-  box-shadow:0 15px 40px rgba(0,0,0,.08);
-  margin-bottom:45px
-}
+        /* --- Navigation --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
 
-input,button{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  margin:10px 0;
-  border:1px solid #ddd;
-  font-size:1rem
-}
+        .logo {
+            font-weight: 900;
+            font-size: 1.5rem;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+        
+        .logo span { color: var(--accent-color); }
 
-button{
-  background:#16a34a;
-  color:white;
-  font-weight:600;
-  border:none;
-  cursor:pointer
-}
-button:hover{opacity:.9}
+        .nav-links a {
+            color: #888;
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 500;
+            transition: 0.3s;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
 
-.hidden{display:none}
+        .nav-links a:hover { color: var(--text-color); }
 
-ul{padding-left:20px}
-li{margin:8px 0}
+        /* --- Hero Section --- */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
 
-footer{
-  background:#0f172a;
-  color:white;
-  text-align:center;
-  padding:40px 20px
-}
-footer a{color:#22c55e;text-decoration:none}
-</style>
+        h1 {
+            font-size: clamp(3rem, 10vw, 8rem);
+            line-height: 0.9;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -3px;
+            margin-bottom: 20px;
+        }
+
+        h1 span {
+            -webkit-text-stroke: 2px var(--accent-color);
+            color: transparent;
+        }
+
+        p.hero-sub {
+            font-size: 1.2rem;
+            color: #888;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            background: var(--text-color);
+            color: var(--bg-color);
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        /* --- Concept Flow --- */
+        .section { padding: 100px 5%; }
+
+        .flow-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .flow-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border: 1px solid var(--border-color);
+        }
+
+        .flow-card i {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .flow-card h3 {
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        /* --- Calculator Section --- */
+        #calculator {
+            border-top: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 3rem;
+            text-transform: uppercase;
+            font-weight: 900;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 20px; }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #888;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .result-box {
+            background: var(--card-bg);
+            padding: 40px;
+            text-align: center;
+            border: 1px solid var(--accent-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .emission-display {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--accent-color);
+        }
+
+        /* --- Certificate Section --- */
+        #certificate-section {
+            background: #0a0a0a;
+        }
+
+        .cert-preview-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            color: #000;
+            padding: 50px;
+            position: relative;
+            margin-bottom: 30px;
+            display: none; /* Hidden until generated */
+        }
+
+        .cert-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #000;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        .cert-body h2 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .cert-details {
+            margin: 40px 0;
+            font-size: 1.2rem;
+        }
+
+        .stamp {
+            border: 3px solid var(--accent-color); /* Note: Accent color on white paper */
+            color: #000;
+            display: inline-block;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 2px;
+            transform: rotate(-5deg);
+        }
+        
+        /* Tips Section */
+        .tips-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+        .tips-list i { margin-right: 15px; color: var(--accent-color); }
+
+        /* Footer */
+        footer {
+            padding: 50px 5%;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            color: #555;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive */
+        @media(max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .section-title { font-size: 2rem; }
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
-<h1>Zerofy 🌱</h1>
-<p>Measure • Reduce • Certify your carbon footprint</p>
-</header>
+    <nav>
+        <div class="logo">ZERO<span>FY</span>.</div>
+        <div class="nav-links">
+            <a href="#calculator">Calculate</a>
+            <a href="#tips">Reduce</a>
+            <a href="#certificate-section">Certify</a>
+        </div>
+    </nav>
 
-<!-- AUTH -->
-<section id="auth" class="card">
-<h2>Login / Signup</h2>
-<input id="email" type="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
-<button onclick="signup()">Sign Up</button>
-<p id="authMsg" style="text-align:center;color:red"></p>
-</section>
+    <header>
+        <h1>Impact<br><span>Measured</span></h1>
+        <p class="hero-sub">The premium carbon intelligence platform. Calculate your footprint. Optimize your lifestyle. Get certified.</p>
+        <a href="#calculator" class="btn">Start Measuring</a>
+    </header>
 
-<!-- DASHBOARD -->
-<section id="dashboard" class="hidden">
+    <section class="section">
+        <div class="flow-container">
+            <div class="flow-card">
+                <i class="fa-solid fa-chart-line"></i>
+                <h3>Measure</h3>
+                <p style="color: #666;">Input your energy and travel data to get precise CO₂ analytics.</p>
+            </div>
+            <div class="flow-card">
+                <i class="fa-solid fa-leaf"></i>
+                <h3>Reduce</h3>
+                <p style="color: #666;">Actionable intelligence to lower your environmental impact.</p>
+            </div>
+            <div class="flow-card">
+                <i class="fa-solid fa-certificate"></i>
+                <h3>Certify</h3>
+                <p style="color: #666;">Official documentation of your commitment to the planet.</p>
+            </div>
+        </div>
+    </section>
 
-<div class="card" style="text-align:center">
-<h2>Welcome to Zerofy</h2>
-<p id="userEmail"></p>
-<button onclick="logout()">Logout</button>
-</div>
+    <section id="calculator" class="section">
+        <h2 class="section-title">Carbon Calculator</h2>
+        <div class="calc-grid">
+            <div class="inputs">
+                <div class="form-group">
+                    <label>Monthly Electricity (kWh)</label>
+                    <input type="number" id="kwhInput" placeholder="e.g. 150">
+                </div>
+                
+                <div class="form-group">
+                    <label>Transport Distance (km/month)</label>
+                    <input type="number" id="kmInput" placeholder="e.g. 500">
+                </div>
 
-<!-- CALCULATOR -->
-<div class="card">
-<h2>Carbon Footprint Calculator 🌍</h2>
+                <div class="form-group">
+                    <label>Vehicle Type</label>
+                    <select id="fuelType">
+                        <option value="0.12">Petrol Car</option>
+                        <option value="0.14">Diesel Car</option>
+                        <option value="0.05">Motorbike</option>
+                        <option value="0.08">Public Bus</option>
+                    </select>
+                </div>
 
-<input id="electricity" type="number" placeholder="Electricity usage (kWh / month)">
-<input id="carKm" type="number" placeholder="Car travel (km / month)">
-<input id="bikeKm" type="number" placeholder="Bike travel (km / month)">
-<input id="publicKm" type="number" placeholder="Bus / Train travel (km / month)">
-<input id="flightKm" type="number" placeholder="Flight travel (km / month)">
-<input id="lpg" type="number" placeholder="LPG cylinders used per month">
+                <button class="btn" onclick="calculateCarbon()">Calculate Impact</button>
+            </div>
 
-<button onclick="calculate()">Calculate Total Footprint</button>
+            <div class="result-box">
+                <label>Your Monthly Footprint</label>
+                <div class="emission-display"><span id="resultValue">0</span> <span style="font-size: 1rem;">kg CO₂</span></div>
+                <p id="resultComment" style="color: #666; margin-top: 20px;">Enter data to analyze.</p>
+            </div>
+        </div>
+    </section>
 
-<h3 id="result" style="margin-top:20px"></h3>
-</div>
+    <section id="tips" class="section">
+        <h2 class="section-title">Reduction Strategy</h2>
+        <div style="max-width: 800px; margin: 0 auto;">
+            <ul class="tips-list">
+                <li><i class="fa-solid fa-bolt"></i> Switch to LED bulbs to reduce lighting energy by 75%.</li>
+                <li><i class="fa-solid fa-plug"></i> Unplug 'vampire' electronics when not in use.</li>
+                <li><i class="fa-solid fa-bicycle"></i> Replace one car trip per week with cycling or walking.</li>
+                <li><i class="fa-solid fa-temperature-arrow-down"></i> Lowering AC by 1°C saves 6% electricity.</li>
+            </ul>
+        </div>
+    </section>
 
-<!-- TIPS -->
-<div class="card">
-<h2>Personalized Reduction Tips ♻️</h2>
-<ul id="tips"></ul>
-</div>
+    <section id="certificate-section" class="section">
+        <h2 class="section-title">Get Certified</h2>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <input type="text" id="certName" placeholder="Enter Full Name" style="max-width: 300px; text-align: center; margin-bottom: 20px;">
+            <br>
+            <button class="btn" onclick="generateCertificate()">Generate Certificate</button>
+        </div>
 
-<!-- CERTIFICATE -->
-<div class="card">
-<h2>Green Certificate 🌿</h2>
-<input id="certName" placeholder="Your Name on Certificate">
-<button onclick="generateCertificate()">Generate Certificate</button>
+        <div id="cert-visual" class="cert-preview-container">
+            <div class="cert-header">
+                <div class="logo" style="color: #000;">ZERO<span>FY</span>.</div>
+                <div>OFFICIAL DOCUMENT</div>
+            </div>
+            <div class="cert-body">
+                <p>THIS CERTIFIES THAT</p>
+                <h2 id="cert-name-display">USER NAME</h2>
+                <div class="cert-details">
+                    Has successfully measured their carbon footprint for this month.
+                    <br><br>
+                    <strong>Recorded Emission:</strong> <span id="cert-emission-display">0</span> kg CO₂e
+                </div>
+            </div>
+            <div class="cert-footer" style="display: flex; justify-content: space-between; align-items: flex-end;">
+                <div class="date" id="cert-date">Date: 2026-01-01</div>
+                <div class="stamp">VERIFIED</div>
+            </div>
+        </div>
 
-<canvas id="certificate" width="800" height="600"
-style="width:100%;margin-top:25px;border-radius:12px"></canvas>
+        <div style="text-align: center; margin-top: 20px; display: none;" id="download-area">
+            <button class="btn" onclick="downloadPDF()">Download PDF</button>
+        </div>
+    </section>
 
-<button onclick="downloadCert()">Download Certificate</button>
-</div>
+    <footer>
+        <p>&copy; 2026 ZEROFY. All rights reserved.<br>Built for a greener future.</p>
+    </footer>
 
-</section>
+    <script>
+        let currentEmission = 0;
 
-<footer>
-<p>© 2026 Zerofy • Climate Positive Platform</p>
-<p>
-<a href="https://instagram.com/zerofy__official">Instagram</a>
-</p>
-</footer>
+        function calculateCarbon() {
+            // Inputs
+            const kwh = parseFloat(document.getElementById('kwhInput').value) || 0;
+            const km = parseFloat(document.getElementById('kmInput').value) || 0;
+            const fuelFactor = parseFloat(document.getElementById('fuelType').value);
 
-<script>
-function signup(){
-  const e=email.value,p=password.value;
-  if(!e||!p){authMsg.innerText="Fill all fields";return}
-  localStorage.setItem("zerofyUser",JSON.stringify({e,p}));
-  authMsg.style.color="green";
-  authMsg.innerText="Signup successful! Login now.";
-}
+            // Calculation (Basic Coefficients)
+            // Avg grid emission ~0.85 kg per kWh (example high carbon grid)
+            const electricEmission = kwh * 0.85; 
+            const transportEmission = km * fuelFactor;
 
-function login(){
-  const u=JSON.parse(localStorage.getItem("zerofyUser"));
-  if(!u||u.e!==email.value||u.p!==password.value){
-    authMsg.innerText="Invalid login";return}
-  localStorage.setItem("zerofyLogin","yes");
-  localStorage.setItem("zerofyEmail",u.e);
-  showDashboard();
-}
+            currentEmission = (electricEmission + transportEmission).toFixed(2);
 
-function logout(){
-  localStorage.removeItem("zerofyLogin");
-  location.reload();
-}
+            // Update UI
+            // Animate the number
+            animateValue("resultValue", 0, currentEmission, 1000);
+            
+            // Update Comment
+            const comment = document.getElementById('resultComment');
+            if(currentEmission < 100) {
+                comment.innerText = "Excellent! Your footprint is very low.";
+                comment.style.color = "#ccff00";
+            } else if (currentEmission < 300) {
+                comment.innerText = "Average. Try applying our reduction tips.";
+                comment.style.color = "#fff";
+            } else {
+                comment.innerText = "High impact detected. Action required.";
+                comment.style.color = "#ff4444";
+            }
+        }
 
-function showDashboard(){
-  auth.classList.add("hidden");
-  dashboard.classList.remove("hidden");
-  userEmail.innerText="Logged in as: "+localStorage.getItem("zerofyEmail");
-}
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    obj.innerHTML = end;
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
 
-if(localStorage.getItem("zerofyLogin")==="yes")showDashboard();
+        function generateCertificate() {
+            const name = document.getElementById('certName').value;
+            if(!name) {
+                alert("Please enter your name first.");
+                return;
+            }
+            if(currentEmission == 0) {
+                alert("Please calculate your footprint first.");
+                document.getElementById('calculator').scrollIntoView();
+                return;
+            }
 
-function calculate(){
-  const electricity = +electricity.value || 0;
-  const car = +carKm.value || 0;
-  const bike = +bikeKm.value || 0;
-  const pub = +publicKm.value || 0;
-  const flight = +flightKm.value || 0;
-  const lpgCyl = +lpg.value || 0;
+            // Fill Data
+            document.getElementById('cert-name-display').innerText = name;
+            document.getElementById('cert-emission-display').innerText = currentEmission;
+            
+            const d = new Date();
+            document.getElementById('cert-date').innerText = "Date: " + d.toLocaleDateString();
 
-  const total =
-    electricity * 0.82 +
-    car * 0.192 +
-    bike * 0.103 +
-    pub * 0.041 +
-    flight * 0.15 +
-    lpgCyl * 42;
+            // Show Preview
+            const preview = document.getElementById('cert-visual');
+            preview.style.display = 'block';
+            document.getElementById('download-area').style.display = 'block';
 
-  result.innerText =
-    `🌱 Estimated CO₂ Emissions: ${total.toFixed(2)} kg / month`;
+            // Scroll to preview
+            preview.scrollIntoView({ behavior: 'smooth' });
+        }
 
-  tips.innerHTML = `
-    <li>Reduce electricity use or shift to solar</li>
-    <li>Carpool or use electric vehicles</li>
-    <li>Prefer public transport</li>
-    <li>Limit flights where possible</li>
-    <li>Use energy-efficient cooking appliances</li>
-    <li>Plant trees to offset emissions 🌳</li>
-  `;
-}
-
-function generateCertificate(){
-  const c=certificate;
-  const ctx=c.getContext("2d");
-
-  ctx.fillStyle="#ecfdf5";
-  ctx.fillRect(0,0,800,600);
-
-  ctx.fillStyle="#166534";
-  ctx.font="42px Poppins";
-  ctx.fillText("Zerofy Green Certificate",190,120);
-
-  ctx.font="26px Poppins";
-  ctx.fillText("This certifies that",280,230);
-
-  ctx.font="36px Poppins";
-  ctx.fillText(certName.value || "Zerofy User",260,300);
-
-  ctx.font="24px Poppins";
-  ctx.fillText("has taken a step towards sustainability 🌱",160,380);
-}
-
-function downloadCert(){
-  const link=document.createElement("a");
-  link.download="zerofy-green-certificate.png";
-  link.href=certificate.toDataURL();
-  link.click();
-}
-</script>
-
+        function downloadPDF() {
+            const element = document.getElementById('cert-visual');
+            const opt = {
+                margin:       0.5,
+                filename:     'Zerofy_Certificate.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
 </body>
 </html>
