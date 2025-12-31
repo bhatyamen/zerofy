@@ -1,4 +1,28 @@
 <head>
+<section id="auth" style="max-width:400px;margin:50px auto;padding:20px;border-radius:12px;background:#f5f5f5;">
+  <h2 id="authTitle">Login to Zerofy</h2>
+
+  <input id="email" type="email" placeholder="Email" style="width:100%;padding:10px;margin:8px 0;">
+  <input id="password" type="password" placeholder="Password" style="width:100%;padding:10px;margin:8px 0;">
+
+  <button onclick="login()" style="width:100%;padding:10px;background:#16a34a;color:white;border:none;border-radius:6px;">
+    Login
+  </button>
+
+  <p style="text-align:center;margin:10px 0;">or</p>
+
+  <button onclick="signup()" style="width:100%;padding:10px;background:#2563eb;color:white;border:none;border-radius:6px;">
+    Sign Up
+  </button>
+
+  <p id="authMsg" style="color:red;text-align:center;"></p>
+</section>
+
+<section id="userPanel" style="display:none;text-align:center;margin-top:40px;">
+  <h2>Welcome to Zerofy 🌱</h2>
+  <p id="userEmail"></p>
+  <button onclick="logout()" style="padding:10px 20px;">Logout</button>
+</section>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9SMWPERVFL"></script>
 <script>
@@ -530,6 +554,57 @@
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
         window.onclick = function(e) { if(e.target == document.getElementById('genericModal')) closeModal('genericModal'); }
     </script>
+<script>
+  function signup() {
+    const email = document.getElementById("email").value;
+    const pass = document.getElementById("password").value;
+
+    if (!email || !pass) {
+      showMsg("Fill all fields");
+      return;
+    }
+
+    localStorage.setItem("zerofyUser", JSON.stringify({ email, pass }));
+    showMsg("Signup successful! Now login.", "green");
+  }
+
+  function login() {
+    const email = document.getElementById("email").value;
+    const pass = document.getElementById("password").value;
+    const user = JSON.parse(localStorage.getItem("zerofyUser"));
+
+    if (!user || user.email !== email || user.pass !== pass) {
+      showMsg("Invalid login");
+      return;
+    }
+
+    localStorage.setItem("zerofyLoggedIn", "true");
+    localStorage.setItem("zerofyEmail", email);
+    showDashboard();
+  }
+
+  function logout() {
+    localStorage.removeItem("zerofyLoggedIn");
+    location.reload();
+  }
+
+  function showDashboard() {
+    document.getElementById("auth").style.display = "none";
+    document.getElementById("userPanel").style.display = "block";
+    document.getElementById("userEmail").innerText =
+      "Logged in as: " + localStorage.getItem("zerofyEmail");
+  }
+
+  function showMsg(msg, color = "red") {
+    const el = document.getElementById("authMsg");
+    el.style.color = color;
+    el.innerText = msg;
+  }
+
+  if (localStorage.getItem("zerofyLoggedIn") === "true") {
+    showDashboard();
+  }
+</script>
 </body>
 </html>
 
